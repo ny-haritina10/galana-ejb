@@ -47,18 +47,21 @@ public class Encaissement extends BaseModel<Encaissement> {
 
         entries.addAll(createPaymentEntries(lastEncaissement, date));
 
-        if (lastEncaissement.getPrelevement().getAmount() > sumEncaisse) 
+        // check if there is unpayed amount
+        if (lastEncaissement.getPrelevement().getPrelevementDifference() > sumEncaisse) 
         { entries.addAll(createCreditNoteEntries(lastEncaissement, sumEncaisse, date)); }
 
         return entries;
     }
 
+    // calculates the total amount for all encaissement
     private static double calculateTotalEncaisse(List<Encaissement> encaissements) {
         return encaissements.stream()
                 .mapToDouble(Encaissement::getMontantEncaisse)
                 .sum();
     }
 
+    // write facture vente entries from prelevement
     private static List<ComptaSousEcriture> createInvoiceEntries(Encaissement encaissement, Date date) 
         throws Exception
     {
@@ -71,6 +74,7 @@ public class Encaissement extends BaseModel<Encaissement> {
         return entries;
     }
 
+    // write encaissement entries (payment)
     private static List<ComptaSousEcriture> createPaymentEntries(Encaissement encaissement, Date date) 
         throws Exception
     {
@@ -83,6 +87,7 @@ public class Encaissement extends BaseModel<Encaissement> {
         return entries;
     }
 
+    // write avoir entries
     private static List<ComptaSousEcriture> createCreditNoteEntries(Encaissement encaissement, double sumEncaisse, Date date) 
         throws Exception
     {

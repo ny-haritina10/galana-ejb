@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+
+    <servlet>
+        <servlet-name>MainController</servlet-name>
+        <servlet-class>controller.MainController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainController</servlet-name>
+        <url-pattern>/MainController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EncaissementController</servlet-name>
+        <servlet-class>controller.EncaissementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EncaissementController</servlet-name>
+        <url-pattern>/EncaissementController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PrelevementController</servlet-name>
+        <servlet-class>controller.PrelevementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PrelevementController</servlet-name>
+        <url-pattern>/PrelevementController</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>VenteController</servlet-name>
+        <servlet-class>controller.VenteController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VenteController</servlet-name>
+        <url-pattern>/VenteController</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EcritureController</servlet-name>
+        <servlet-class>controller.EcritureController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EcritureController</servlet-name>
+        <url-pattern>/EcritureController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ProfitController</servlet-name>
+        <servlet-class>controller.ProfitController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProfitController</servlet-name>
+        <url-pattern>/ProfitController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CreanceController</servlet-name>
+        <servlet-class>controller.CreanceController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreanceController</servlet-name>
+        <url-pattern>/CreanceController</url-pattern>
+    </servlet-mapping>
+</web-app>

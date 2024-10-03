@@ -1,0 +1,52 @@
+# GAS STATION PART 2
+
++ TABLE 
+
+    + Supplier 
+        - id
+        - name
+        
+    + Unit 
+        - id
+        - name
+    
+    + Caisse 
+        - id
+        - name
+    
+    + Pompiste 
+        - id 
+        - name
+    
+    + Pompe    
+        - id 
+        - name
+
+    + Cuve
+        - id 
+        - id_product [FK]
+        - name 
+        - qte_max
+        - qte_initial_cuve    
+        
+    + Product 
+        - id
+        - id_unit [FK]
+        - name
+        - PU_achat
+        - PU_vente
+
+    + Prelevement
+        - id 
+        - id pompiste [FK]
+        - id pompe [FK]
+        - id_product [FK]
+        - amount (amount end session - amount begin session)
+        - date prelevement 
+        
+    + Encaissement (CLASSE)
+        - id
+        - id_prelevement [FK]
+        - id_caisse [FK]
+        - amount encaissé 
+        - date encaissement

@@ -1,0 +1,7 @@
+CREATE SEQUENCE seq_pompiste;
+CREATE SEQUENCE seq_pompe;
+CREATE SEQUENCE seq_cuve;
+CREATE SEQUENCE seq_unit;
+CREATE SEQUENCE seq_product;
+CREATE SEQUENCE seq_prelevement;
+CREATE SEQUENCE seq_encaissement;

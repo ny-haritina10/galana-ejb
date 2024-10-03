@@ -49,3 +49,4 @@ CREATE TABLE Encaissement (
     montant_encaisse NUMBER NOT NULL,
     date_encaissement DATE
 );
+

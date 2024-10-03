@@ -1,0 +1,117 @@
+# GAS STATION PART 2
+
++ TABLE 
+
+    + Supplier 
+        - id
+        - name
+        
+    + Unit 
+        - id
+        - name
+    
+    + Caisse 
+        - id
+        - name
+    
+    + Pompiste 
+        - id 
+        - name
+    
+    + Pompe    
+        - id 
+        - name
+
+    + Cuve
+        - id 
+        - id_product [FK]
+        - name 
+        - qte_max
+        - qte_initial_cuve    
+        
+    + Product 
+        - id
+        - id_unit [FK]
+        - name
+        - PU_achat
+        - PU_vente
+
+    + Prelevement
+        - id 
+        - id pompiste [FK]
+        - id pompe [FK]
+        - id_product [FK]
+        - amount (amount end session - amount begin session)
+        - date prelevement 
+        
+    + Encaissement (CLASSE)
+        - id
+        - id_prelevement [FK]
+        - id_caisse [FK]
+        - amount encaissé 
+        - date encaissement
+    
+    /*----------------------- */
+    /* SUJET III -------------*/
+    /*----------------------- */
+
+    Mesure initial: 175cm
+    qte_initial: 150L
+    qte_fin_service: 50L 
+    Mesurement from base: 
+        - 5L => 15cm
+        - 45L => 20cm 
+        - 50L => 50cm
+        - 70L => 100cm
+        - 100L => 120cm
+        - 150L => 175cm
+        
+    --> qte_vendue = 150 - 50 = 100L
+    --> reste qte in stock = qte_initial - qte_vendue = 150L - 100L = 50L  
+    --> next mesurement = 45cm
+
+    => next_mesurement_in_liter = 45cm = 20L (from db)
+    => mesurement_expected = reste_stock = 50L = 50cm
+    => !ANOMALIE!
+        => mesurement_expected - next_mesurement_in_liter
+        => 50cm - 45cm = 5cm
+            => anomalie_in_liter = 5cm
+            => anomalie_in_qte = 15L
+
+    TABLE :
+
+        + CuveReference
+            - id
+            - id_pompe [FK]
+            - quantity
+            - mesurement
+
+        + Mesurement
+            - id
+            - id_pompe [FK]
+            - id_pompiste [FK]
+            - date
+            - mesure
+    
+    * qte_initial and mesurement initial are correlated
+    * mesurement requires PARITY
+        * last mesurement need to be verified
+        * check anomaly from even mesurement
+
+    ++ AFFICHAGE ++ 
+
+        * formulaire MESUREMENT
+            - pompe
+            - pompiste
+            - date
+            - mesure (cm)
+        * list anomaly
+            ** table **
+                - pompe
+                - date
+                - current mesurement (cm)
+                - excpected mesurement (cm)
+                - current quantity (L)
+                - excpected quantity (L)
+                - anomaly in cm
+                - anomaly in L

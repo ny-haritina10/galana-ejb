@@ -134,7 +134,7 @@ public class Prelevement extends BaseModel<Prelevement> {
     }
 
     public double getAmount() {
-        return amount;
+        return this.amount;
     }
 
     public void setAmount(double amount) {

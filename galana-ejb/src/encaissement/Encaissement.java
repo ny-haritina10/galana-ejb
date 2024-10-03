@@ -30,55 +30,85 @@ public class Encaissement extends BaseModel<Encaissement> {
         setDateEncaissement(dateEncaissement);
     }
 
+    public static List<ComptaSousEcriture> encaissementToEntries(List<Encaissement> encaissements) 
+        throws Exception 
+    {
+        if (encaissements.isEmpty()) 
+        { return new ArrayList<>(); }
+
+        Encaissement lastEncaissement = encaissements.get(encaissements.size() - 1);
+        double sumEncaisse = calculateTotalEncaisse(encaissements);
+        Date date = lastEncaissement.getDateEncaissement();
+
+        List<ComptaSousEcriture> entries = new ArrayList<>();
+
+        if (encaissements.size() == 1) 
+        { entries.addAll(createInvoiceEntries(lastEncaissement, date)); }
+
+        entries.addAll(createPaymentEntries(lastEncaissement, date));
+
+        if (lastEncaissement.getPrelevement().getAmount() > sumEncaisse) 
+        { entries.addAll(createCreditNoteEntries(lastEncaissement, sumEncaisse, date)); }
+
+        return entries;
+    }
+
+    private static double calculateTotalEncaisse(List<Encaissement> encaissements) {
+        return encaissements.stream()
+                .mapToDouble(Encaissement::getMontantEncaisse)
+                .sum();
+    }
+
+    private static List<ComptaSousEcriture> createInvoiceEntries(Encaissement encaissement, Date date) 
+        throws Exception
+    {
+        double prelevement = encaissement.getPrelevement().getPrelevementDifference();
+        List<ComptaSousEcriture> entries = new ArrayList<>();
+
+        entries.add(new ComptaSousEcriture("4110000000000", prelevement, 0, " %%% Vente Client du " + date, " %%% Vente Client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
+        entries.add(new ComptaSousEcriture("712000", 0, prelevement, " %%% Vente preleve du " + date, " %%% Vente preleve du " + date, null, null, null, "COMP000039", "2024", null, date, null, null));
+
+        return entries;
+    }
+
+    private static List<ComptaSousEcriture> createPaymentEntries(Encaissement encaissement, Date date) 
+        throws Exception
+    {
+        double encaisse = encaissement.getMontantEncaisse();
+        List<ComptaSousEcriture> entries = new ArrayList<>();
+
+        entries.add(new ComptaSousEcriture("4110000000000", 0, encaisse, " %%% Encaissement montant client du " + date, " %%% Encaissement montant client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
+        entries.add(new ComptaSousEcriture("5300000000000", encaisse, 0, " %%% Debit Caisse du " + date, " %%% Debit Caisse du " + date, null, null, null, "COMP000036", "2024", null, date, null, null));
+
+        return entries;
+    }
+
+    private static List<ComptaSousEcriture> createCreditNoteEntries(Encaissement encaissement, double sumEncaisse, Date date) 
+        throws Exception
+    {
+        double impaye = Math.abs(encaissement.getPrelevement().getPrelevementDifference() - sumEncaisse);
+        List<ComptaSousEcriture> entries = new ArrayList<>();
+
+        entries.add(new ComptaSousEcriture("4110000000000", 0, impaye, " %%% Avoir client du " + date, " %%% Avoir client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
+        entries.add(new ComptaSousEcriture("712000", impaye, 0, " %%% Vente facture avoir du " + date, " %%% Vente facture avoir du " + date, null, null, null, "COMP000039", "2024", null, date, null, null));
+        entries.add(new ComptaSousEcriture("712000", 0, impaye, " %%% Vente facture avoir du " + date, " %%% Vente facture avoir du " + date, null, null, null, "COMP000039", "2024", null, date, null, null));
+        entries.add(new ComptaSousEcriture("4110000000000", impaye, 0, " %%% Impaye Client du " + date, " %%% Impaye Client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
+
+        return entries;
+    }
+
     public static List<Encaissement> getAllEncaissementByIdPrelevement(int idPrelevement) 
         throws Exception 
     {
-        List<Encaissement> encaissements = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-    
-        try {
-            connection = Database.getConnection();
-            String sql = "SELECT * FROM Encaissement WHERE id_prelevement = ?";
-            statement = connection.prepareStatement(sql);
-            statement.setInt(1, idPrelevement);
-            resultSet = statement.executeQuery();
-    
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                Prelevement prelevement = new Prelevement().getById(idPrelevement, Prelevement.class, null);
-                double montantEncaisse = resultSet.getDouble("montant_encaisse");
-                Date dateEncaissement = resultSet.getDate("date_encaissement");
-    
-                Encaissement encaissement = new Encaissement(id, prelevement, montantEncaisse, dateEncaissement);
-                encaissements.add(encaissement);
-            }
-        } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+        Encaissement[] all = new Encaissement().getAll(Encaissement.class, null);
+        List<Encaissement> result = new ArrayList<>();
+
+        for (Encaissement encaissement : all) {
+            if (encaissement.getPrelevement().getId() == idPrelevement)
+            { result.add(encaissement); }    
         }
-    
-        return encaissements;
+
+        return result;
     }    
 
     public void insert(Connection connection) 
@@ -123,77 +153,6 @@ public class Encaissement extends BaseModel<Encaissement> {
             }
         }
     }
-
-    public static List<ComptaSousEcriture> encaissementToEntries(List<Encaissement> encaissements) 
-        throws Exception 
-    {
-        Encaissement encaissement = encaissements.get(encaissements.size() - 1);
-
-        double sumEncaisse = 0;
-        for (Encaissement enc : encaissements) 
-        { sumEncaisse += enc.getMontantEncaisse(); }
-
-        if (encaissement != null) {
-            List<ComptaSousEcriture> listSousEcriture = new ArrayList<ComptaSousEcriture>();
-
-            double prelevement = encaissement.getPrelevement().getPrelevementDifference();
-            double encaisse = encaissement.getMontantEncaisse();
-            double impaye = Math.abs(prelevement - encaisse);
-
-            Date date = encaissement.getDateEncaissement();
-
-            if (encaissements.size() == 1) {
-                System.out.println("prel" + prelevement + " encaisse: " + encaisse + " impaye: " + impaye);
-            
-    
-                /* FACTURE PRELEVEMENT */
-                ComptaSousEcriture first = new ComptaSousEcriture("4110000000000",prelevement,0, " %%% Vente Client du " + date," %%% Vente Client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null);
-                ComptaSousEcriture second = new ComptaSousEcriture("712000",  0,prelevement, " %%% Vente preleve du " + date, " %%% Vente preleve du " + date, null, null, null, "COMP000039", "2024", null, date, null, null);
-    
-                /* ENCAISSEMENT */
-                ComptaSousEcriture fifth = new ComptaSousEcriture("4110000000000", 0,encaisse, " %%% Encaissement montant client du " + date," %%% Encaissement montant client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null); 
-
-                ComptaSousEcriture sixth = new ComptaSousEcriture("5300000000000",  encaisse,0, " %%% Debit Caisse du " + date, " %%% Debit Caisse du " + date,null, null, null, "COMP000036", "2024", null, date,null, null);
-    
-                listSousEcriture.add(first);
-                listSousEcriture.add(second);
-                listSousEcriture.add(fifth);
-                listSousEcriture.add(sixth);
-            }
-
-            else {
-                /* ENCAISSEMENT */
-                ComptaSousEcriture fifth = new ComptaSousEcriture("4110000000000", 0,encaisse, " %%% Encaissement montant client du " + date," %%% Encaissement montant client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null); 
-                ComptaSousEcriture sixth = new ComptaSousEcriture("5300000000000",  0,encaisse, " %%% Debit Caisse du " + date, " %%% Debit Caisse du " + date,null, null, null, "COMP000036", "2024", null, date,null, null);
-
-                listSousEcriture.add(fifth);
-                listSousEcriture.add(sixth);
-            }
-
-
-           
-            if (encaissement.getPrelevement().getAmount() > sumEncaisse) {
-                /* FACTURE AVOIR */
-                ComptaSousEcriture third = new ComptaSousEcriture("4110000000000", 0,impaye, " %%% Avoir client du " + date, " %%% Avoir client du " + date, null, null, null, "COMP000044", "2024", null, date,null,null);
-                ComptaSousEcriture fourth = new ComptaSousEcriture("712000", impaye,0, " %%% Vente facture avoir du " + date," %%% Vente facture avoir du " + date, null, null, null,"COMP000039", "2024", null, date, null, null);
-                ComptaSousEcriture fourthII = new ComptaSousEcriture("712000", 0,impaye, " %%% Vente facture avoir du " + date," %%% Vente facture avoir du " + date, null, null, null,"COMP000039", "2024", null, date, null, null);
-
-                /* FACTURE CLIENT PARTICULIER */
-                ComptaSousEcriture eight = new ComptaSousEcriture("4110000000000", impaye,0, " %%% Impaye Client du " + date, " %%% Impaye Client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null);
-
-                
-                listSousEcriture.add(third);
-                listSousEcriture.add(fourth);
-                listSousEcriture.add(fourthII);
-                listSousEcriture.add(eight);
-            }
-
-            return listSousEcriture;
-        }
-        
-        return null;
-    }
-
 
     public int getId() {
         return id;

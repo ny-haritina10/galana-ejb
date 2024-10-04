@@ -61,7 +61,7 @@
         <br><br>
 
         <!-- Input for amount -->
-        <label for="amount">Amount:</label>
+        <label for="amount">Quantity taken: (L)</label>
         <input type="number" name="amount" id="amount" step="0.01" required>
         <br><br>
 

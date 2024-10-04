@@ -5,3 +5,5 @@ CREATE SEQUENCE seq_unit;
 CREATE SEQUENCE seq_product;
 CREATE SEQUENCE seq_prelevement;
 CREATE SEQUENCE seq_encaissement;
+CREATE SEQUENCE seq_cuvereference;
+CREATE SEQUENCE seq_mesurement;

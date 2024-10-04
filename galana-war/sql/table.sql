@@ -50,3 +50,22 @@ CREATE TABLE Encaissement (
     date_encaissement DATE
 );
 
+/*----------------------------- */
+/* SUJET III ------------------ */
+/*----------------------------- */
+
+-- CuveReference Table
+CREATE TABLE CuveReference (
+    id INT PRIMARY KEY,
+    id_pompe INT REFERENCES Pompe(id),
+    quantity NUMBER NOT NULL,
+    mesure NUMBER NOT NULL
+);
+
+-- Mesurement Table
+CREATE TABLE Mesurement (
+    id INT PRIMARY KEY,
+    id_pompe INT REFERENCES Pompe(id),
+    date_mesurement DATE NOT NULL,
+    mesure NUMBER NOT NULL
+);

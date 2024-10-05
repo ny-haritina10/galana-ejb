@@ -3,38 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gas Station Management</title>
+    <link rel="stylesheet" href="./assets/css/index.css">
 </head>
 
 <body>
-    <h1>Gas Station</h1>
+    <h1>Gas Station Management</h1>
 
-    <p>
-        <a href="PrelevementController"> Prelevement </a>
-    </p>
-
-    <p>
-        <a href="VenteController"> Ventes </a>
-    </p>
-
-    <p>
-        <a href="EncaissementController"> Encaissement </a>
-    </p>
-
-    <p>
-        <a href="EcritureController"> Ecriture </a>
-    </p>
-
-    <p>
-        <a href="ProfitController"> Profit </a>
-    </p>
-
-    <p>
-        <a href="CreanceController"> Creance </a>
-    </p>
-
-    <p>
-        <a href="MesureController"> Mesure </a>
-    </p>
+    <div class="menu-container">
+        <div class="menu-item">
+            <a href="PrelevementController">Prelevement</a>
+        </div>
+        <div class="menu-item">
+            <a href="VenteController">Ventes</a>
+        </div>
+        <div class="menu-item">
+            <a href="EncaissementController">Encaissement</a>
+        </div>
+        <div class="menu-item">
+            <a href="EcritureController">Ecriture</a>
+        </div>
+        <div class="menu-item">
+            <a href="ProfitController">Profit</a>
+        </div>
+        <div class="menu-item">
+            <a href="CreanceController">Creance</a>
+        </div>
+        <div class="menu-item">
+            <a href="MesureController">Mesure</a>
+        </div>
+        <div class="menu-item">
+            <a href="AnomalieController">Anomalie</a>
+        </div>
+    </div>
 </body>
 </html>

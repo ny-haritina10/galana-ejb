@@ -5,11 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Encaissement Form</title>
+    <link rel="stylesheet" href="./assets/css/form.css">
 </head>
 
 <body>
-    <h1>Encaissement Form</h1>
     <form action="EncaissementController" method="post">
+        <h1>Encaissement Form</h1>
+        
         <label for="prelevement">Selectionnez le prelevement :</label>
         <select name="id_prelevement" id="prelevement" required>
             <option value="">Selectionnez un prelevement</option>

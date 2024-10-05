@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Ventes List</title>
+    <link rel="stylesheet" href="./assets/css/table.css">
 </head>
 <body>
 

@@ -7,11 +7,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="./assets/css/form.css">
 </head>
 <body>
-  <h1>Mesurement</h1>
 
   <form action="MesureController" method="post">
+    <h1>Mesurement</h1>
+    
     <!-- Select for Pompes -->
     <label for="pompe">Pompe:</label>
     <select name="pompe" id="pompe">

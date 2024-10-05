@@ -9,38 +9,10 @@ INSERT INTO Pompiste (id, name) VALUES (seq_pompiste.NEXTVAL, 'Jane Smith');
 INSERT INTO Product (id, id_unit, name, PU_achat, PU_vente) VALUES (seq_product.NEXTVAL, 2, 'Essence', 1.10, 2);
 
 -- POMPE
-INSERT INTO Pompe (id, id_product, name, qte_max, qte_initial) VALUES (seq_cuve.NEXTVAL, 2, 'Cuve 1', 5000, 500);
-INSERT INTO Pompe (id, id_product, name, qte_max, qte_initial) VALUES (seq_cuve.NEXTVAL, 2, 'Cuve 2', 6000, 200);
-INSERT INTO Pompe (id, id_product, name, qte_max, qte_initial) VALUES (seq_cuve.NEXTVAL, 2, 'Cuve 3', 7000, 100);
+INSERT INTO Pompe (id, id_product, name, qte_max, qte_initial) VALUES (seq_cuve.NEXTVAL, 2, 'Cuve 1', 5000, 0);
+INSERT INTO Pompe (id, id_product, name, qte_max, qte_initial) VALUES (seq_cuve.NEXTVAL, 2, 'Cuve 2', 6000, 0);
+INSERT INTO Pompe (id, id_product, name, qte_max, qte_initial) VALUES (seq_cuve.NEXTVAL, 2, 'Cuve 3', 7000, 0);
 
-/*
-    PU_v = 2$
-
-    PRELEV A:
-    150 - 100 = 50$
-    50$ -> 25L 
-
-    PRELEV B:
-    300 - 150 = 150$
-    150$ -> 75L
-
-    MESURE A:
-    50 - 45 = 5cm
-    5cm -> 25L
-
-    MESURE B:
-    45 - 35 = 10cm
-    10cm -> 50L 
-
-    ** CONCLUSION **
-    PRELEV A & MESURE A : 
-        => 25 - 25 = 0
-        => Pas d'anomalie
-
-    PRELEV B & MESURE B : 
-        => 75 - 50 = 25 
-        => Anomalie de 25L ou de 5cm
-*/
 -- Prelevement
 INSERT INTO Prelevement (id, id_pompiste, id_pompe, id_product, amount, date_prelevement)
 VALUES (seq_prelevement.NEXTVAL, 2, 3, 2, 100, TO_DATE('2024-10-03', 'YYYY-MM-DD'));
@@ -117,7 +89,3 @@ INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuverefer
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 240, 48);
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 245, 49);
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 250, 50);
-
---
--- ANOMALIE
--- 

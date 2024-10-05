@@ -4,11 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="./assets/css/form.css">
 </head>
 <body>
-  <h1>Consult Profit</h1>
 
   <form action="ProfitController" method="post">
+    <h1>Consult Profit</h1>
+
     <label for="year">Year:</label>
     <input type="number" id="year" name="year" min="1900" max="2100" required>
     

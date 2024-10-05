@@ -96,7 +96,7 @@ JOIN
     CuveReference cr
     ON m.id_pompe = cr.id_pompe
     AND m.mesure = cr.mesure;
-
+ 
 --
 -- ANOMALIE
 --
@@ -135,6 +135,6 @@ FROM
     closest_mesurement cm
 WHERE
     cm.rn = 1 -- select only the closest previous measurement for each prelevement
-ORDER BY
+ORDER BY 
     cm.id_pompe,
     cm.date_vente;

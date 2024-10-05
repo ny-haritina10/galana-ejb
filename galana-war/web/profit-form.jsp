@@ -33,5 +33,10 @@
     
     <input type="submit" value="Calculate Profit">
   </form>
+
+  <br><br>
+  <center>
+      <a href="index.jsp">BACK</a>
+  </center>
 </body>
 </html>

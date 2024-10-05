@@ -143,6 +143,8 @@
         %>
         
         <a href="creance-form.jsp" class="back-link">Back to Accounts Receivable Form</a>
+        <br>
+        <a href="index.jsp">BACK</a>
     </div>
 </body>
 </html>

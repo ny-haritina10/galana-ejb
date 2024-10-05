@@ -36,5 +36,9 @@
 
         <button type="submit">Soumettre</button>
     </form>
+    <br><br>
+    <center>
+        <a href="index.jsp">BACK</a>
+    </center>
 </body>
 </html>

@@ -45,5 +45,10 @@
     </tbody>
 </table>
 
+<br><br>
+<center>
+    <a href="index.jsp">BACK</a>
+</center>
+
 </body>
 </html>

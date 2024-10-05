@@ -40,5 +40,10 @@
     <label for="submit">Submit</label>
     <input type="submit" value="Submit">
   </form>
+
+  <br><br>
+  <center>
+      <a href="index.jsp">BACK</a>
+  </center>
 </body>
 </html>

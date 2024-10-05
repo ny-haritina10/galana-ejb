@@ -60,11 +60,15 @@
         </table>
     </div>
         
-<%
-    } else {
-        out.println("<p>Aucune écriture trouvée.</p>");
-    }
-%>
+    <%
+        } else {
+            out.println("<p>Aucune écriture trouvée.</p>");
+        }
+    %>
+    <br><br>
+    <center>
+        <a href="index.jsp">BACK</a>
+    </center>
 
 </body>
 </html>

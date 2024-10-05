@@ -19,5 +19,10 @@
       <input type="submit" value="Submit">
     </p>
   </form>
+
+  <br><br>
+  <center>
+      <a href="index.jsp">BACK</a>
+  </center>
 </body>
 </html>

@@ -52,12 +52,12 @@
         - date encaissement
     
     /*----------------------- */
-    /* SUJET III -------------*/
+    /* SUJET III ------------ */
     /*----------------------- */
 
     Mesure initial: 175cm
-    qte_initial: 150L
-    qte_fin_service: 50L 
+    qte_initial: 50L
+    qte_fin_service: 150L 
     Mesurement from base: 
         - 5L => 15cm
         - 45L => 20cm 
@@ -65,9 +65,9 @@
         - 70L => 100cm
         - 100L => 120cm
         - 150L => 175cm
-        
+     
     --> qte_vendue = 150 - 50 = 100L
-    --> reste qte in stock = qte_initial - qte_vendue = 150L - 100L = 50L  
+    --> reste qte in stock = mesure in liters from DB  
     --> next mesurement = 45cm
 
     => next_mesurement_in_liter = 45cm = 20L (from db)
@@ -89,7 +89,6 @@
         + Mesurement
             - id
             - id_pompe [FK]
-            - id_pompiste [FK]
             - date
             - mesure
     
@@ -102,9 +101,9 @@
 
         * formulaire MESUREMENT
             - pompe
-            - pompiste
             - date
             - mesure (cm)
+
         * list anomaly
             ** table **
                 - pompe
@@ -115,3 +114,13 @@
                 - excpected quantity (L)
                 - anomaly in cm
                 - anomaly in L
+
+
+
+
+Commnent faire pour avoir cette view a partir de ma base de donnée et de mes views. Voici le tableau 
+Pompe | Date | Current quantity (in L) | Expected quantity (in L) | current mesure (in cm) | excpected mesure(in cm) | anomalie in cm | anomalie in L |
+
+Voici l'explication, je veux creer une application qui va gerer une station d'essence. Il y a des Pompiste qui se chargent du prelevement de l'essence sur le compteur. J'ai deja créé des views pour gerer ces fonctionnnalité . Mais maintenant, je veux ajouter une fonctionnnalité de verification d'anomalie. Pour verifier une anomalie, il y a un formulaire qui permet d'inserer les mesures des cuves. Ce mesures sont donc en cm. Et pour chaque cuve, il y a une table pour stocker la reference des cuves, voir la table CuveReference ... On va donc stocker dans cette table la quantité (L) contenue pour chaque CM du Cuve. La mesure en cm de l'essence dans la cuve est donc stocké dans la table Mesurement. Par exemple, mesure 1 : 20cm, mesure 2: 15cm, mesure 3: 11cm ... La quantité consommé ets donc la difference entre la mesure precedente et la mesure actuel ... 
+En ensuite pour calculé les anomalie, si la difference entre la quantité mesuré - quantité vendue est diffente , il y a une anomalie ...
+As tu compris ce que je veux faire ? Peux tu me suggerer une approche pour resoudre ce probleme ... Tu peux creer plusieurs , si necessaire, pour resoudre le probleme ... J'utilise Oracle comme db ... 

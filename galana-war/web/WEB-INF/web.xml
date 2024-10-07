@@ -66,4 +66,22 @@
         <servlet-name>CreanceController</servlet-name>
         <url-pattern>/CreanceController</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>MesureController</servlet-name>
+        <servlet-class>controller.MesureController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MesureController</servlet-name>
+        <url-pattern>/MesureController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AnomalieController</servlet-name>
+        <servlet-class>controller.AnomalieController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AnomalieController</servlet-name>
+        <url-pattern>/AnomalieController</url-pattern>
+    </servlet-mapping>
 </web-app>

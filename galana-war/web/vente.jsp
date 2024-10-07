@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Ventes List</title>
+    <link rel="stylesheet" href="./assets/css/table.css">
 </head>
 <body>
 
@@ -43,6 +44,11 @@
         %>
     </tbody>
 </table>
+
+<br><br>
+<center>
+    <a href="index.jsp">BACK</a>
+</center>
 
 </body>
 </html>

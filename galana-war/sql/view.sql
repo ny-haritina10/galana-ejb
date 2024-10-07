@@ -61,32 +61,72 @@ SELECT
     id_product,
     id_pompe,
     TRUNC(date_end_session) AS date_vente,  
-    SUM(amount_end - amount_beginning) AS somme_ventes
+    SUM(amount_end - amount_beginning) AS somme_ventes,
+    SUM(amount_end - amount_beginning) / p.PU_vente AS qte_in_liter
 FROM 
     v_pompe_ventes
+JOIN 
+    Product p
+ON 
+    v_pompe_ventes.id_product = p.id
 GROUP BY
     id_product,
     id_pompe,
     TRUNC(date_end_session),
-    id_prelevement
+    id_prelevement,
+    p.PU_vente
 ORDER BY
     id_pompe,
     date_vente;
 
 --
--- AMOUNT PER POMPES
+-- MESUREMENT CONSECUTIFS DIFF
 --
-CREATE OR REPLACE VIEW v_vente_totale_per_pompe AS
+CREATE OR REPLACE VIEW v_mesurement_diff AS
 SELECT
-    id_prelevement,
-    id_product,
-    id_pompe,
-    SUM(amount_end - amount_beginning) AS somme_totale
-FROM 
-    v_pompe_ventes
-GROUP BY
-    id_product,
-    id_pompe,
-    id_prelevement
-ORDER BY
-    id_pompe;
+    m.id,
+    m.id_pompe,
+    m.date_mesurement,
+    m.mesure,
+    interpolate_cm_to_liter(m.id_pompe, LAG(m.mesure) OVER (PARTITION BY m.id_pompe ORDER BY m.date_mesurement)) - interpolate_cm_to_liter(m.id_pompe, m.mesure) AS mesure_diff
+FROM
+    Mesurement m;
+
+--
+-- ANOMALIE
+--
+CREATE OR REPLACE VIEW v_anomalie AS
+WITH closest_mesurement AS (
+    SELECT
+        vvp.id_pompe,
+        vvp.date_vente,
+        vvp.somme_ventes AS prelevement_quantity,
+        vmd.date_mesurement,
+        vmd.mesure_diff AS mesure_diff_in_cm, 
+        cr.quantity / cr.mesure AS liter_to_cm_ratio, 
+        ROW_NUMBER() OVER (PARTITION BY vvp.id_pompe, vvp.date_vente ORDER BY vmd.date_mesurement DESC) AS rn
+    FROM 
+        v_ventes_per_pompe_and_date vvp
+    LEFT JOIN
+        v_mesurement_diff vmd
+        ON vvp.id_pompe = vmd.id_pompe
+        AND vmd.date_mesurement <= vvp.date_vente  
+    LEFT JOIN
+        CuveReference cr
+        ON vvp.id_pompe = cr.id_pompe 
+        AND vmd.mesure = cr.mesure
+)
+SELECT
+    cm.id_pompe,
+    cm.date_vente,
+    cm.prelevement_quantity AS prelev_in_L,
+    cm.prelevement_quantity / cm.liter_to_cm_ratio AS prelevement_in_cm, 
+    cm.mesure_diff_in_cm  AS mesure_in_l, 
+    cm.prelevement_quantity - cm.mesure_diff_in_cm AS anomalie_in_L
+FROM
+    closest_mesurement cm
+WHERE
+    cm.rn = 1
+ORDER BY 
+    cm.id_pompe,
+    cm.date_vente;

@@ -7,6 +7,7 @@
 <html>
 <head>
     <title>Compta Sous Écritures</title>
+    <link rel="stylesheet" href="./assets/css/table.css">
 </head>
 <body>
 <h1>Liste des Compta Sous Écritures</h1>
@@ -31,17 +32,10 @@
                     <th>Débit</th>
                     <th>Crédit</th>
                     <th>Remarque</th>
-                    <th>Libelle Piece</th>
                     <th>ID Mère</th>
-                    <th>Référence Engagement</th>
-                    <th>Compte Aux</th>
-                    <th>Lettrage</th>
                     <th>Journal</th>
                     <th>Exercice</th>
-                    <th>Folio</th>
                     <th>Daty</th>
-                    <th>Analytique</th>
-                    <th>Source</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,17 +48,10 @@
                         <td><%= ecriture.getDebit() %></td>
                         <td><%= ecriture.getCredit() %></td>
                         <td><%= ecriture.getRemarque() %></td>
-                        <td><%= ecriture.getLibellePiece() %></td>
                         <td><%= ecriture.getIdMere() %></td>
-                        <td><%= ecriture.getReference_engagement() %></td>
-                        <td><%= ecriture.getCompte_aux() %></td>
-                        <td><%= ecriture.getLettrage() %></td>
                         <td><%= ecriture.getJournal() %></td>
                         <td><%= ecriture.getExercice() %></td>
-                        <td><%= ecriture.getFolio() %></td>
                         <td><%= ecriture.getDaty() %></td>
-                        <td><%= ecriture.getAnalytique() %></td>
-                        <td><%= ecriture.getSource() %></td>
                     </tr>
                 <%
                     }
@@ -73,11 +60,15 @@
         </table>
     </div>
         
-<%
-    } else {
-        out.println("<p>Aucune écriture trouvée.</p>");
-    }
-%>
+    <%
+        } else {
+            out.println("<p>Aucune écriture trouvée.</p>");
+        }
+    %>
+    <br><br>
+    <center>
+        <a href="index.jsp">BACK</a>
+    </center>
 
 </body>
 </html>

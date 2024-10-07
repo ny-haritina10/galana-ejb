@@ -68,8 +68,8 @@ public class Encaissement extends BaseModel<Encaissement> {
         double prelevement = encaissement.getPrelevement().getPrelevementDifference();
         List<ComptaSousEcriture> entries = new ArrayList<>();
 
-        entries.add(new ComptaSousEcriture("4110000000000", prelevement, 0, " %%% Vente Client du " + date, " %%% Vente Client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
-        entries.add(new ComptaSousEcriture("712000", 0, prelevement, " %%% Vente preleve du " + date, " %%% Vente preleve du " + date, null, null, null, "COMP000039", "2024", null, date, null, null));
+        entries.add(new ComptaSousEcriture("4110000000000", prelevement, 0, "  Vente Client du " + date, "  Vente Client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
+        entries.add(new ComptaSousEcriture("712000", 0, prelevement, "  Vente preleve du " + date, "  Vente preleve du " + date, null, null, null, "COMP000039", "2024", null, date, null, null));
 
         return entries;
     }
@@ -81,8 +81,8 @@ public class Encaissement extends BaseModel<Encaissement> {
         double encaisse = encaissement.getMontantEncaisse();
         List<ComptaSousEcriture> entries = new ArrayList<>();
 
-        entries.add(new ComptaSousEcriture("4110000000000", 0, encaisse, " %%% Encaissement montant client du " + date, " %%% Encaissement montant client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
-        entries.add(new ComptaSousEcriture("5300000000000", encaisse, 0, " %%% Debit Caisse du " + date, " %%% Debit Caisse du " + date, null, null, null, "COMP000036", "2024", null, date, null, null));
+        entries.add(new ComptaSousEcriture("4110000000000", 0, encaisse, "  Encaissement montant client du " + date, "  Encaissement montant client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
+        entries.add(new ComptaSousEcriture("5300000000000", encaisse, 0, "  Debit Caisse du " + date, "  Debit Caisse du " + date, null, null, null, "COMP000036", "2024", null, date, null, null));
 
         return entries;
     }
@@ -94,7 +94,7 @@ public class Encaissement extends BaseModel<Encaissement> {
         double impaye = Math.abs(encaissement.getPrelevement().getPrelevementDifference() - sumEncaisse);
         List<ComptaSousEcriture> entries = new ArrayList<>();
 
-        entries.add(new ComptaSousEcriture("4110000000000", 0, impaye, " %%% Avoir client du " + date, " %%% Avoir client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
+        entries.add(new ComptaSousEcriture("4110000000000", 0, impaye, "  Avoir client du " + date, "  Avoir client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
         entries.add(new ComptaSousEcriture("712000", impaye, 0, " %%% Vente facture avoir du " + date, " %%% Vente facture avoir du " + date, null, null, null, "COMP000039", "2024", null, date, null, null));
         entries.add(new ComptaSousEcriture("712000", 0, impaye, " %%% Vente facture avoir du " + date, " %%% Vente facture avoir du " + date, null, null, null, "COMP000039", "2024", null, date, null, null));
         entries.add(new ComptaSousEcriture("4110000000000", impaye, 0, " %%% Impaye Client du " + date, " %%% Impaye Client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));

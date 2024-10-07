@@ -6,10 +6,12 @@
 <html>
 <head>
     <title>Prelevement Form</title>
+    <link rel="stylesheet" href="./assets/css/form.css">
 </head>
 <body>
-    <h2>Prelevement Form</h2>
     <form action="PrelevementController" method="POST">
+        <h2>Prelevement Form</h2>
+        
         <!-- Select for Pompes -->
         <label for="pompe">Pompe:</label>
         <select name="pompe" id="pompe">
@@ -68,5 +70,10 @@
         <!-- Submit button -->
         <button type="submit">Submit</button>
     </form>
+
+    <br><br>
+    <center>
+        <a href="index.jsp">BACK</a>
+    </center>
 </body>
 </html>

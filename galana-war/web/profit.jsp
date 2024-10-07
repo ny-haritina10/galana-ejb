@@ -94,7 +94,7 @@
                 <p>Profit: <%= currencyFormatter.format(profit) %></p>
             </div>
 
-            <!-- <h3>Revenue Details (Compte 7)</h3>
+            <h3>Revenue Details (Compte 7)</h3>
             <table>
                 <tr>
                     <th>Account</th>
@@ -120,12 +120,14 @@
                         <td><%= currencyFormatter.format(entry.getValue()) %></td>
                     </tr>
                 <% } %>
-            </table> -->
+            </table>
         <%
         }
         %>
         
         <a href="profit-form.jsp" class="back-link">Back to Calculation Form</a>
+        <br>
+        <a href="index.jsp">BACK</a>
     </div>
 </body>
 </html>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="FileTransfer" default="copy" basedir=".">
+    <target name="copy">
+        <copy 
+            file="D:\Studies\ITU\S5\INF301_Architechture-Logiciel\projet\gestion-station\S5 p16\gestion-station\build-file\ear\station-ejb.jar"
+            
+            toDir="D:\Studies\ITU\S5\INF301_Architechture-Logiciel\projet\gestion-station\S5 p16\galana-war\lib" />
+    </target>
+</project>

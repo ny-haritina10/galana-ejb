@@ -12,11 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.Database;
+import ejb.InventaireServiceRemote;
 import mesurement.Mesure;
 import mesurement.Mesurement;
 import pompe.Pompe;
 
+import javax.ejb.EJB;
+
 public class MesureController extends HttpServlet {
+
+    @EJB
+    private InventaireServiceRemote beanRemote;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) 
@@ -54,8 +60,17 @@ public class MesureController extends HttpServlet {
             boolean success = mesurement.insert(null);
 
             if (success) {
+                
+                // save into inventory
+                beanRemote.saveInventory(
+                    "%% Inventaire du " + dateMesureStr + " pour la mesure de la pompe " + pompe.getName(),
+                    "%% Mesure du " + dateMesureStr + " de " + mes.getValueInCM() + " cm",
+                    dateMesure, 
+                    mes.getValueInCM() 
+                );
+                
                 req.setAttribute("succes", "Insertion Mesure Success");
-                req.getRequestDispatcher("ecriture.jsp").forward(req, resp);
+                req.getRequestDispatcher("index.jsp").forward(req, resp);
             } 
             
             else {

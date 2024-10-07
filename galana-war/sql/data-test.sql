@@ -35,32 +35,29 @@ VALUES (seq_mesurement.NEXTVAL, 3, TO_DATE('2024-10-04', 'YYYY-MM-DD'), 45);
 INSERT INTO Mesurement (id, id_pompe, date_mesurement, mesure) 
 VALUES (seq_mesurement.NEXTVAL, 3, TO_DATE('2024-10-05', 'YYYY-MM-DD'), 35); -- EXPECTED = 30
 
--- INSERT INTO Mesurement (id, id_pompe, date_mesurement, mesure) 
--- VALUES (seq_mesurement.NEXTVAL, 3, TO_DATE('2024-10-06', 'YYYY-MM-DD'), 24);
 
 -- Cuve Reference
+-- DATA IZY 
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 5, 1);
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 10, 2);
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 15, 3);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 20, 4);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 25, 5);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 30, 6);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 35, 7);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 40, 8);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 45, 9);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 50, 10);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 55, 11);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 60, 12);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 65, 13);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 70, 14);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 75, 15);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 80, 16);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 85, 17);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 90, 18);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 95, 19);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 100, 20);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 105, 21);
-INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 110, 22);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 20, 7);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 25, 10);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 30, 14);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 35, 71);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 40, 28);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 45, 29);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 50, 30);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 55, 34);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 60, 36);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 95, 41);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 100, 45);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 105, 47);
+INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 110, 52);
+
+
+-- TSY ATSOFOKA
+--END
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 115, 23);
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 120, 24);
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 125, 25);
@@ -89,3 +86,4 @@ INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuverefer
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 240, 48);
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 245, 49);
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 250, 50);
+

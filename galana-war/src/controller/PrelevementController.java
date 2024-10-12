@@ -24,9 +24,9 @@ public class PrelevementController extends HttpServlet {
         throws ServletException, IOException 
     {   
         try {
-           Pompe[] pompeList = new Pompe().getAll(Pompe.class, null);
-           Pompiste[] pompisteList = new Pompiste().getAll(Pompiste.class, null);
-           Product[] products = new Product().getAll(Product.class, null);
+            Pompe[] pompeList = new Pompe().getAll(Pompe.class, null);
+            Pompiste[] pompisteList = new Pompiste().getAll(Pompiste.class, null);
+            Product[] products = new Product().getAll(Product.class, null);
 
             req.setAttribute("pompes", pompeList);
             req.setAttribute("pompistes", pompisteList);

@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.util.List;
 
 import base.BaseModel;
+import client.Client;
 import database.Database;
 import mg.cnaps.compta.ComptaSousEcriture;
 import prelevement.Prelevement;
@@ -74,7 +75,7 @@ public class Encaissement extends BaseModel<Encaissement> {
         return entries;
     }
 
-    // write encaissement entries (payment)
+    // write encaissement entries (payment) encaissement
     private static List<ComptaSousEcriture> createPaymentEntries(Encaissement encaissement, Date date) 
         throws Exception
     {
@@ -98,6 +99,18 @@ public class Encaissement extends BaseModel<Encaissement> {
         entries.add(new ComptaSousEcriture("712000", impaye, 0, " %%% Vente facture avoir du " + date, " %%% Vente facture avoir du " + date, null, null, null, "COMP000039", "2024", null, date, null, null));
         entries.add(new ComptaSousEcriture("712000", 0, impaye, " %%% Vente facture avoir du " + date, " %%% Vente facture avoir du " + date, null, null, null, "COMP000039", "2024", null, date, null, null));
         entries.add(new ComptaSousEcriture("4110000000000", impaye, 0, " %%% Impaye Client du " + date, " %%% Impaye Client du " + date, null, null, null, "COMP000044", "2024", null, date, null, null));
+
+        return entries;
+    }
+
+    // make avoir encaissement future (530000) 
+    public static List<ComptaSousEcriture> makePrevision(Client client, Date dateEcheance, double amount) 
+        throws Exception
+    {
+        List<ComptaSousEcriture> entries = new ArrayList<>();
+
+        entries.add(new ComptaSousEcriture(client.getCompte(), 0, amount, "Prevision futur du " + dateEcheance, "Prevision futur du " + dateEcheance, null, null, null, "COMP000044", "2024", null, dateEcheance, null, null));
+        entries.add(new ComptaSousEcriture("5300000000000", amount, 0, "Creance client: " + client.getNom() + "/" + client.getMail() + " du " + dateEcheance, "Creance client: " + client.getNom() + "/" + client.getMail() + " du " + dateEcheance, null, null, null, "COMP000036", "2024", null, dateEcheance, null, null));
 
         return entries;
     }

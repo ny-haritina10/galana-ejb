@@ -28,9 +28,12 @@
                 <tr>
                     <th>ID</th>
                     <th>ID Client</th>
+                    <th>ID Prélèvement</th>
                     <th>Date Échéance</th>
                     <th>Montant</th>
                     <th>Date Prélèvement</th>
+                    <th>Pompe</th>
+                    <th>Pompiste</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,10 +42,13 @@
                 %>
                     <tr>
                         <td><%= detail.getId() %></td>
+                        <td><%= detail.getPrelevement().getId() %></td>
                         <td><%= detail.getIdClient() %></td>
                         <td><%= detail.getDateEcheance() %></td>
-                        <td><%= detail.getAmount() %></td>
+                        <td>$<%= detail.getAmount() %></td>
                         <td><%= detail.getPrelevement().getDatePrelevement() %></td>
+                        <td><%= detail.getPrelevement().getPompe().getName() %></td>
+                        <td><%= detail.getPrelevement().getPompiste().getName() %></td>
                     </tr>
                 <%
                     }

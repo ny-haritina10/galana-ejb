@@ -24,7 +24,7 @@ public abstract class BaseModel<T> {
                 valid = false;
             }
 
-            String sql = "SELECT * FROM " + (tableName != null ? tableName : this.getClass().getSimpleName());
+            String sql = "SELECT * FROM " + (tableName != null ? tableName : this.getClass().getSimpleName() + " ORDER BY id");
             state = con.createStatement();
             result = state.executeQuery(sql);
 

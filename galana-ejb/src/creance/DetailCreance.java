@@ -5,6 +5,8 @@ import base.BaseModel;
 import database.Database;
 import prelevement.Prelevement;
 
+import java.util.List;
+
 public class DetailCreance extends BaseModel<DetailCreance> {
 
     private int id;
@@ -22,6 +24,15 @@ public class DetailCreance extends BaseModel<DetailCreance> {
         setIdClient(idClient);
         setDateEcheance(dateEcheance);
         setAmount(amount);
+    }
+
+    public static double getSumAmountConcernedDetailCreances(List<DetailCreance> list) {
+        double sum = 0;
+
+        for(DetailCreance detail : list) 
+        { sum += detail.getAmount(); }
+
+        return sum;
     }
 
     public void insert(Connection connection) throws Exception {

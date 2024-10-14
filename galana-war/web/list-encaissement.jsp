@@ -59,5 +59,9 @@
       <% }%>
     </tbody>
   </table>
+
+  <center>
+    <a href="index.jsp">Back</a>
+  </center>
 </body>
 </html>

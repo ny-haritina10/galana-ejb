@@ -1,0 +1,9 @@
+--station/station
+DELETE FROM Prelevement;
+DELETE FROM Mesurement;
+DELETE FROM CuveReference;
+DELETE FROM Creance;
+DELETE FROM ENCAISSEMENT;
+
+-- dax/dax
+DELETE FROM COMPTA_SOUS_ECRITURE;

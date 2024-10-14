@@ -11,6 +11,12 @@
 </head>
 <body>
 
+  <% if (request.getAttribute("error") != null) { %>
+    <div class="error">
+      <p><%= request.getAttribute("error") %></p>
+    </div>
+  <% } %>
+  
   <form action="MesureController" method="post">
     <h1>Mesurement</h1>
     

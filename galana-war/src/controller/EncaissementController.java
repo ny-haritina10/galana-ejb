@@ -11,24 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.ejb.EJB;
-
 import ejb.EcritureServiceRemote;
-import ejb.ClientServiceRemote;
-
 import encaissement.Encaissement;
 import mg.cnaps.compta.ComptaSousEcriture;
-
 import prelevement.Prelevement;
 
+import javax.ejb.EJB;
 
 public class EncaissementController extends HttpServlet {
 
     @EJB
     private EcritureServiceRemote remote;
-
-    @EJB
-    ClientServiceRemote remote;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) 
@@ -74,13 +67,15 @@ public class EncaissementController extends HttpServlet {
             ComptaSousEcriture[] entriesArray = toEntries.toArray(new ComptaSousEcriture[0]);
             remote.writeEntries(entriesArray);
 
-
-
             resp.sendRedirect("index.jsp"); 
         } 
 
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (Exception e) 
+        {
+            req.setAttribute("error", "An error occured : " + e.getMessage()); 
+            req.getRequestDispatcher("encaissement-form.jsp").forward(req, resp);
+            
+            e.printStackTrace(); 
         }
     }
 }

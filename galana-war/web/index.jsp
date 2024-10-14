@@ -41,6 +41,9 @@
         <div class="menu-item">
             <a href="CreanceDetailController?mode=l">Detail Creance</a>
         </div>
+        <div class="menu-item">
+            <a href="etat-caisse.jsp">Etat de caisse</a>
+        </div>
     </div>
 </body>
 </html>

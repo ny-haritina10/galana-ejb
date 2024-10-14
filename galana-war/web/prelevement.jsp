@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="./assets/css/form.css">
 </head>
 <body>
+    <% if (request.getAttribute("error") != null) { %>
+        <div class="error">
+          <p><%= request.getAttribute("error") %></p>
+        </div>
+    <% } %>
+
     <form action="PrelevementController" method="POST">
         <h2>Prelevement Form</h2>
         

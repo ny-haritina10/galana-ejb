@@ -102,4 +102,13 @@
         <servlet-name>CreanceDetailController</servlet-name>
         <url-pattern>/CreanceDetailController</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EtatCaisseController</servlet-name>
+        <servlet-class>controller.EtatCaisseController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EtatCaisseController</servlet-name>
+        <url-pattern>/EtatCaisseController</url-pattern>
+    </servlet-mapping>
 </web-app>

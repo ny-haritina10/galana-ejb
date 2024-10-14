@@ -12,7 +12,8 @@
 
   double payedAmount = encaissement.getMontantEncaisse();
   double amountToPay = encaissement.getPrelevement().getPrelevementDifference();
-  double unpayedAmount =  amountToPay - payedAmount;
+  double amountConcerned = DetailCreance.getSumAmountConcernedDetailCreances(concernedCreances);
+  double unpayedAmount =  (amountToPay - payedAmount);
 %>
 
 
@@ -207,38 +208,52 @@
                 }
             %>
         </tbody>
-    </table>  
-    
-    <p>Amount to pay : <b><%= amountToPay %></b></p>
-    <p>Amount payed : <b><%= payedAmount %></b></p>
-    <p>Unpayed amount : <b><%= unpayedAmount %></b></p>
+        </table>  
+        
+        <p>Amount to pay : <b><%= amountToPay %></b></p>
+        <p>Amount payed : <b><%= payedAmount %></b></p>
+        <p>Unpayed amount : <b><%= unpayedAmount %></b></p>
+        <p>Concerned detail creances amount: <b><%= amountConcerned %></b></p>
     </div>
     
-    <% if(unpayedAmount != 0) { %>
-      <form action="CreanceDetailController" method="post">
-        <label for="date-echeance">Date echeance payement</label>
-        <input type="date" name="date-echeance">
-        <br><br>
-
-        <select name="client">
-          <% for(Client client : clients) { %>
-            <option value="<%= client.getId() %>"><%= client.getNom() %></option>
-            <% } %>
-        </select>
-        <br><br>
-
-        <label for="amount">Amount</label>
-        <input type="number" name="amount">
-        <br><br>
-
-        <input type="submit" value="Submit">
-      </form>
+    <% if (unpayedAmount == 0 || (amountConcerned == unpayedAmount && unpayedAmount != 0) ) { %>
+        <div class="result">
+            <h4>All of the amount has been payed or has detailled on this prelevement, Thank you !</h4>
+        </div>
 
     <% } else { %>
-      <div class="result">
-        <h4>All of the amount has been payed on this prelevement, Thank you !</h4>
-      </div>
+
+        <% if (request.getAttribute("error") != null) { %>
+            <div class="error">
+              <p><%= request.getAttribute("error") %></p>
+            </div>
+        <% } %> 
+        
+        <form action="CreanceDetailController" method="post">
+            <label for="date-echeance">Date echeance payement</label>
+            <input type="date" name="date-echeance" required>
+            <br><br>
+
+            <select name="client" required>
+            <% for(Client client : clients) { %>
+                <option value="<%= client.getId() %>"><%= client.getNom() %></option>
+            <% } %>
+            </select>
+            <br><br>
+
+            <label for="amount">Amount</label>
+            <input type="number" name="amount" id="amount" required step="0.01" min="0">
+            <br>
+            <br><br>
+
+            <input type="submit" value="Submit">
+        </form>
     <% } %>
   </div>
+
+  <br><br>
+  <center>
+    <a href="index.jsp">BACK</a>
+  </center>
 </body>
 </html>

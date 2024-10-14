@@ -35,9 +35,22 @@ VALUES (seq_mesurement.NEXTVAL, 3, TO_DATE('2024-10-04', 'YYYY-MM-DD'), 45);
 INSERT INTO Mesurement (id, id_pompe, date_mesurement, mesure) 
 VALUES (seq_mesurement.NEXTVAL, 3, TO_DATE('2024-10-05', 'YYYY-MM-DD'), 35); -- EXPECTED = 30
 
+-- Encaissement
+-- Donnée tsy maintsy ampidirina @ formulaire d'encaissement  
+/*
+    Encaissement A | 150 - 100 = 50$ | montant a encaissé 50$ | date : 13/10/2024 (TSISY TROSA)
+    Encaisssment B | 300 - 150 = 150$ | montant a encaissé 100$ | date : 14/10/2024 (MISY TROSA 50$)
+*/
+
+-- Creance
+-- Donnée tsy maintsy ampidirina @ formulaire de details creances 
+-- Lien arahana oany zay mapiasa an'ny code-ko: List Encaissement => Add creance details
+/*
+    Encaissement B where unpayed amount = 50 | dt echeance : 17/10/2024 | amount: 25$ | Client: mety daoly 
+    Encaissement B where unpayed amount = 50 | dt echeance : 19/10/2024 | amount: 25$ | Client: mety daoly 
+*/
 
 -- Cuve Reference
--- DATA IZY 
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 5, 1);
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 10, 2);
 INSERT INTO CuveReference (id, id_pompe, quantity, mesure) VALUES (seq_cuvereference.NEXTVAL, 3, 15, 3);

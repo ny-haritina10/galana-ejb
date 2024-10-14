@@ -89,6 +89,7 @@ public class Encaissement extends BaseModel<Encaissement> {
     }
 
     // write avoir entries
+    // avoir entries is not registered in caisse 5300000
     private static List<ComptaSousEcriture> createCreditNoteEntries(Encaissement encaissement, double sumEncaisse, Date date) 
         throws Exception
     {

@@ -9,6 +9,13 @@
 </head>
 
 <body>
+
+    <% if (request.getAttribute("error") != null) { %>
+        <div class="error">
+          <p><%= request.getAttribute("error") %></p>
+        </div>
+    <% } %>
+    
     <form action="EncaissementController" method="post">
         <h1>Encaissement Form</h1>
         
@@ -19,13 +26,14 @@
                 Prelevement[] prelevements = (Prelevement[]) request.getAttribute("prelevements");
                 for (Prelevement prelevement : prelevements) {
             %>
-                <option value="<%= prelevement.getId() %>">
-                    <%= "ID: " + prelevement.getId() + " - Montant: $" + prelevement.getAmount() + " - Date: " + prelevement.getDatePrelevement() %>
-                </option>
+                    <option value="<%= prelevement.getId() %>">
+                        <%= " Montant preleve: $" + prelevement.getPrelevementDifference() + " - Date: " + prelevement.getDatePrelevement() %>
+                    </option>
             <% } %>
         </select>
         <br><br>
 
+        
         <label for="montant_encaisse">Montant a encaisser :</label>
         <input type="number" name="montant_encaisse" id="montant_encaisse" required step="0.01">
         <br><br>

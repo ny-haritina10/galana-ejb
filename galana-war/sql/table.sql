@@ -69,3 +69,16 @@ CREATE TABLE Mesurement (
     date_mesurement DATE NOT NULL,
     mesure NUMBER NOT NULL
 );
+
+/*----------------------------- */
+/* SUJET IV ------------------- */
+/*----------------------------- */
+
+-- Creance Table
+CREATE TABLE Creance (
+    id INT PRIMARY KEY,
+    id_prelevement REFERENCES Prelevement(id),
+    id_client VARCHAR(255) NOT NULL,
+    date_echeance DATE NOT NULL,
+    amount NUMBER NOT NULL
+);

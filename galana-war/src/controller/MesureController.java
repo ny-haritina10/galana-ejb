@@ -80,7 +80,12 @@ public class MesureController extends HttpServlet {
         } 
         
         catch (Exception e) 
-        { e.printStackTrace(); } 
+        {
+            req.setAttribute("error", "An error occured : " + e.getMessage()); 
+            req.getRequestDispatcher("mesure.jsp").forward(req, resp);
+            
+            e.printStackTrace(); 
+        }
         
         finally {
             if (connection != null) {

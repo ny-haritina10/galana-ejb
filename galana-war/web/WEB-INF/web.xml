@@ -84,4 +84,31 @@
         <servlet-name>AnomalieController</servlet-name>
         <url-pattern>/AnomalieController</url-pattern>
     </servlet-mapping>
+ 
+    <servlet>
+        <servlet-name>ListEncaissementController</servlet-name>
+        <servlet-class>controller.ListEncaissementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListEncaissementController</servlet-name>
+        <url-pattern>/ListEncaissementController</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CreanceDetailController</servlet-name>
+        <servlet-class>controller.CreanceDetailController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreanceDetailController</servlet-name>
+        <url-pattern>/CreanceDetailController</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EtatCaisseController</servlet-name>
+        <servlet-class>controller.EtatCaisseController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EtatCaisseController</servlet-name>
+        <url-pattern>/EtatCaisseController</url-pattern>
+    </servlet-mapping>
 </web-app>

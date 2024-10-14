@@ -70,8 +70,12 @@ public class EncaissementController extends HttpServlet {
             resp.sendRedirect("index.jsp"); 
         } 
 
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (Exception e) 
+        {
+            req.setAttribute("error", "An error occured : " + e.getMessage()); 
+            req.getRequestDispatcher("encaissement-form.jsp").forward(req, resp);
+            
+            e.printStackTrace(); 
         }
     }
 }

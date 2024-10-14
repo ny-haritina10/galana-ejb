@@ -8,6 +8,12 @@
 </head>
 <body>
 
+  <% if (request.getAttribute("error") != null) { %>
+    <div class="error">
+      <p><%= request.getAttribute("error") %></p>
+    </div>
+  <% } %>
+
   <form action="CreanceController" method="post">
     <h1>Creance form</h1>
     <p>

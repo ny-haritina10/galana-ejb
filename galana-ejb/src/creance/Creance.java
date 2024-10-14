@@ -18,12 +18,12 @@ public class Creance {
             String compte = entry.getCompte();
             LocalDate date = entry.getDaty().toLocalDate();
 
-            if (compte != null && compte.length() > 0 && compte.startsWith("411")) {
+            if (compte != null && compte.length() > 0 && compte.startsWith("411") && !compte.equals("4110000000000")) {
                 if (exercice == null || date.getYear() == exercice) {
 
                     double debit = entry.getDebit();
                     double credit = entry.getCredit();
-                    double balance = debit - credit;
+                    double balance = Math.abs(debit - credit);
                     
                     clientBalances.merge(compte, balance, Double::sum);
                 }

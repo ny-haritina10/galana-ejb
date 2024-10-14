@@ -34,7 +34,7 @@ public class Prelevement extends BaseModel<Prelevement> {
         double sommeVentes = 0.0; 
     
         try (Connection connection = Database.getConnection(); 
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+            PreparedStatement statement = connection.prepareStatement(sql)) {
     
             statement.setInt(1, this.getId());
             ResultSet resultSet = statement.executeQuery();

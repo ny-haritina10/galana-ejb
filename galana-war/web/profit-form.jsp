@@ -8,6 +8,12 @@
 </head>
 <body>
 
+  <% if (request.getAttribute("error") != null) { %>
+    <div class="error">
+      <p><%= request.getAttribute("error") %></p>
+    </div>
+  <% } %>
+  
   <form action="ProfitController" method="post">
     <h1>Consult Profit</h1>
 

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ejb.EcritureServiceRemote;
+import prevision.Prevision;
 import inventaire.Inventaire;
 import inventaire.InventaireFille;
 import magasin.Magasin;

@@ -50,10 +50,12 @@ public class CreanceController extends HttpServlet {
             
             req.getRequestDispatcher("creance.jsp").forward(req, res);
         } 
+
         catch (NumberFormatException e) {
             req.setAttribute("error", "Invalid exercise year. Please enter a valid number.");
             req.getRequestDispatcher("creance-form.jsp").forward(req, res);
         }
+        
         catch (Exception e) {
             e.printStackTrace();
             req.setAttribute("error", "An error occurred while calculating accounts receivable.");

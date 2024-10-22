@@ -11,16 +11,30 @@ public class Product extends BaseModel<Product> {
     private String name;
     private double puAchat;
     private double puVente;
+    private String typeProduct;
+    private double qteInitial;
+    private String sousType;
 
     // Constructor
     public Product() {}
 
-    public Product(int id, Unit unit, String name, double puAchat, double puVente) {
+    public Product(int id, Unit unit, String name, double puAchat, double puVente, String typeProduct, double qteInitial, String sousType) {
         setId(id);
         setUnit(unit);
         setName(name);
         setPuAchat(puAchat);
         setPuVente(puVente);
+        setTypeProduct(typeProduct);
+        setQteInitial(qteInitial);
+        setSousType(sousType);
+    }
+
+    public double getQteInitial() {
+        return qteInitial;
+    }
+
+    public void setQteInitial(double qteInitial) {
+        this.qteInitial = qteInitial;
     }
 
     public int getId() {
@@ -91,7 +105,26 @@ public class Product extends BaseModel<Product> {
         String name = resultSet.getString("name");
         double puAchat = resultSet.getDouble("PU_achat");
         double puVente = resultSet.getDouble("PU_vente");
+        String typeProduct = resultSet.getString("type_product");
+        double qteInitial = resultSet.getDouble("qte_initial");
+        String sousType = resultSet.getString("sous_type");
 
-        return new Product(id, unit, name, puAchat, puVente);
+        return new Product(id, unit, name, puAchat, puVente, typeProduct, qteInitial, sousType);
+    }
+
+    public String getTypeProduct() {
+        return typeProduct;
+    }
+
+    public void setTypeProduct(String typeProduct) {
+        this.typeProduct = typeProduct;
+    }
+
+    public String getSousType() {
+        return sousType;
+    }
+
+    public void setSousType(String sousType) {
+        this.sousType = sousType;
     }
 }

@@ -1,0 +1,38 @@
+@model List<boutique.Models.StockDetail>
+
+<h2>Stock Details</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Stock ID</th>
+            <th>Date</th>
+            <th>Product</th>
+            <th>Quantity In</th>
+            <th>Quantity Out</th>
+            <th>Initial Quantity</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stock in Model)
+        {
+            <tr>
+                <td>@stock.StockId</td>
+                <td>@stock.DateSession.ToString("MMMM dd, yyyy")</td>
+                <td>@stock.ProductName</td>
+                <td>@stock.QuantityIn</td>
+                <td>@stock.QuantityOut</td>
+                <td>@stock.InitialQuantity</td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = stock.StockId })" class="btn btn-info btn-sm">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,75 @@
+## BOUTIQUE:  
+    . Sales Shop BACK-END (JAVA)
+        - SALE'S FORM 
+            + client
+            + products
+                + type `boutique`
+                + cart 
+                    + product
+                    + quantity
+            + date
+            + Check if quantity requested >= quantity in stock (view)
+
+        - Invoice
+            + total amount (view from order and orderItems)
+            + products
+            + client 
+            + date 
+            + invoice using `station-ejb`
+
+        - Stock 
+            + Sales
+                + Decrease Stock level of the concerned products
+                    + date
+                    + quantity 
+                    + products
+
+        - Cash Status 
+            + Sales
+                + increase cash for each sales
+                    + cash out invoices
+                + create sous ecritures using `station-ejb` 
+                    + compte 35 ?
+            + List (VIEW)
+                + Invoice 
+                + date
+                + total amount
+                + current cash
+
+    . Sale's Shop FRONT-END (C# ASP.NET)
+        - Sale's Form
+            + Cart (JS)
+                + add product + quantity
+                + remove product 
+            + Validation
+                + Stock level check
+                + Error displaying
+
+        - Invoice List 
+            + invoice
+            + products
+            + amount 
+            + date
+
+        - Stock List
+            + products
+            + quantity in 
+            + quantuty out
+            + current quantity
+            + date
+
+        - Cash Status
+            + invoice 
+            + amount
+            + current amount 
+            + date 
+
+
+# TODO:
+    - displaying error when there is stock shortage for a product ...
+    - Facture from station-ejb ...
+    - Etat de caisse 
+        - Compte Stock 
+
+
+        And when there is an exceeding quantity requested too ?

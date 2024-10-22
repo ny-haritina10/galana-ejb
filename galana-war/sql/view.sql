@@ -79,6 +79,12 @@ ORDER BY
     id_pompe,
     date_vente;
 
+
+/*============================================= */
+/*ANOMALIE ==================================== */
+/*============================================= */
+
+
 --
 -- MESUREMENT CONSECUTIFS DIFF
 --
@@ -130,3 +136,114 @@ WHERE
 ORDER BY 
     cm.id_pompe,
     cm.date_vente;
+
+
+/*============================================= */
+/*BOUTIQUE ==================================== */
+/*============================================= */
+
+
+--
+-- SUM AMOUNT OF AN ORDER
+-- 
+CREATE OR REPLACE VIEW v_boutique_order_totals AS
+SELECT 
+    o.id AS order_id,
+    SUM(oi.quantity * p.PU_vente) AS total_amount
+FROM 
+    Orders o
+JOIN 
+    OrderItems oi ON o.id = oi.id_order
+JOIN 
+    Product p ON oi.id_product = p.id
+WHERE 
+    p.type_product = 'BOUTIQUE'
+GROUP BY 
+    o.id;
+
+--
+-- STOCK LEVEL
+--
+CREATE OR REPLACE VIEW v_stock_levels AS
+SELECT 
+    P.id AS product_id,
+    P.name AS product_name,
+    P.qte_initial,
+    S.date_session,
+    COALESCE(SUM(S.quantity_in), 0) AS total_quantity_in,
+    COALESCE(SUM(S.quantity_out), 0) AS total_quantity_out,
+    COALESCE(SUM(OI.quantity), 0) AS total_ordered,
+    (P.qte_initial + COALESCE(SUM(S.quantity_in), 0) 
+     - COALESCE(SUM(S.quantity_out), 0)) AS current_stock
+FROM 
+    Product P
+LEFT JOIN Stock S 
+    ON P.id = S.id_product 
+LEFT JOIN OrderItems OI 
+    ON P.id = OI.id_product 
+GROUP BY 
+    P.id, P.name, P.qte_initial, S.date_session;
+
+--
+-- Invoice Detail
+--
+CREATE OR REPLACE VIEW v_invoice_detail AS
+SELECT 
+    SI.id AS id_invoice,
+    O.id AS order_id,
+    O.id_client AS client_id,
+    O.date_order AS order_date,
+    p.id AS id_product,
+    P.name AS product_name,
+    OI.quantity AS product_quantity,
+    P.PU_vente AS unit_price,
+    (OI.quantity * P.PU_vente) AS line_total,
+    SI.total_amount AS total_invoice_amount
+FROM 
+    Orders O
+JOIN 
+    OrderItems OI ON O.id = OI.id_order
+JOIN 
+    Product P ON OI.id_product = P.id
+JOIN 
+    SaleInvoices SI ON O.id = SI.id_order;
+
+--
+-- DETAIL STOCK
+--
+CREATE OR REPLACE VIEW v_detail_stock AS
+SELECT
+    S.id AS stock_id,
+    S.date_session,
+    S.quantity_in,
+    S.quantity_out,
+    P.id AS product_id,
+    P.name AS product_name,
+    P.PU_achat AS purchase_price,
+    P.PU_vente AS sale_price,
+    P.type_product,
+    P.qte_initial AS initial_quantity
+FROM
+    Stock S
+JOIN
+    Product P ON S.id_product = P.id;
+    
+--
+-- RESTE
+--
+CREATE OR REPLACE VIEW v_stock_remaining AS
+SELECT 
+    p.id AS product_id,
+    p.name AS product_name,
+    p.qte_initial AS initial_quantity,
+    COALESCE(SUM(s.quantity_in), 0) AS total_quantity_in,
+    COALESCE(SUM(s.quantity_out), 0) AS total_quantity_out,
+    (p.qte_initial + COALESCE(SUM(s.quantity_in), 0) - COALESCE(SUM(s.quantity_out), 0)) AS remaining_quantity
+FROM 
+    Product p
+WHERE 
+    p.type_product = 'BOUTIQUE'
+LEFT JOIN 
+    Stock s ON p.id = s.id_product
+GROUP BY 
+    p.id, p.name, p.qte_initial;

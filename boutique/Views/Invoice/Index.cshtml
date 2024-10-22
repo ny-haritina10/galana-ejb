@@ -1,0 +1,36 @@
+@model List<boutique.Models.Invoice>
+
+<h2>Invoices</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Client ID</th>
+            <th>Order Date</th>
+            <th>Total Amount</th>
+            <th>Action</th> <!-- Add Action column -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model)
+        {
+            <tr>
+                <td>@invoice.OrderId</td>
+                <td>@invoice.ClientId</td>
+                <td>@invoice.OrderDate.ToString("MMMM dd, yyyy")</td>
+                <td>$@invoice.TotalInvoiceAmount.ToString("F2")</td>
+                <td>
+                    <form asp-action="Details" asp-route-id="@invoice.OrderId" method="get">
+                        <button type="submit" class="btn btn-primary">View Details</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

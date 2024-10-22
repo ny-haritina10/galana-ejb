@@ -1,0 +1,189 @@
+@model boutique.Models.SaleForm
+
+<h2>Sale Form</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<div id="messageContainer" class="alert alert-info d-none" role="alert"></div>
+
+<form id="saleForm">
+    <div class="mb-3">
+        <label for="saleDate" class="form-label">Sale Date:</label>
+        <input type="date" class="form-control" id="saleDate" name="saleDate" value="@Model.SaleDate.ToString("yyyy-MM-dd")" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="clientSelect" class="form-label">Select Client:</label>
+        <select class="form-select" id="clientSelect" name="selectedClientId" required>
+            <option value="">Choose a client...</option>
+            @foreach (var client in Model.Clients)
+            {
+                <option value="@client.Id">@client.Nom - @client.Adresse</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="productSelect" class="form-label">Select Product:</label>
+        <select class="form-select" id="productSelect" name="selectedProductId" required>
+            <option value="">Choose a product...</option>
+            @foreach (var product in Model.Products)
+            {
+                @if (product.TypeProduct == "BOUTIQUE")
+                {
+                    <option value="@product.Id" data-price="@product.PuVente">@product.Name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="quantity" class="form-label">Quantity:</label>
+        <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" required>
+    </div>
+
+    <button type="button" id="addToCartBtn" class="btn btn-secondary">Add to Cart</button>
+    <button type="submit" class="btn btn-primary">Submit Cash Sale</button>
+    <button type="button" id="creditSaleBtn" class="btn btn-warning">Submit Credit Sale</button>
+</form>
+
+<div id="cart" class="mt-4">
+    <h3>Cart</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="cartItems">
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Total</strong></td>
+                <td id="cartTotal"></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        let cart = [];
+
+        function updateCart() {
+            const cartItemsElement = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            cartItemsElement.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.productName}</td>
+                    <td>${item.quantity}</td>
+                    <td>$${item.unitPrice.toFixed(2)}</td>
+                    <td>$${item.totalPrice.toFixed(2)}</td>
+                    <td><button class="btn btn-sm btn-danger" onclick="removeFromCart(${index})">Remove</button></td>
+                `;
+                cartItemsElement.appendChild(row);
+                total += item.totalPrice;
+            });
+
+            cartTotalElement.textContent = `$${total.toFixed(2)}`;
+        }
+
+        function addToCart() {
+            const productSelect = document.getElementById('productSelect');
+            const quantityInput = document.getElementById('quantity');
+            const productId = parseInt(productSelect.value);
+            const productName = productSelect.options[productSelect.selectedIndex].text;
+            const quantity = parseInt(quantityInput.value);
+            const unitPrice = parseFloat(productSelect.options[productSelect.selectedIndex].dataset.price);
+
+            if (productId && quantity > 0) {
+                const existingItemIndex = cart.findIndex(item => item.productId === productId);
+                if (existingItemIndex !== -1) {
+                    cart[existingItemIndex].quantity += quantity;
+                    cart[existingItemIndex].totalPrice = cart[existingItemIndex].quantity * cart[existingItemIndex].unitPrice;
+                } else {
+                    cart.push({
+                        productId: productId,
+                        productName: productName,
+                        quantity: quantity,
+                        unitPrice: unitPrice,
+                        totalPrice: quantity * unitPrice
+                    });
+                }
+                updateCart();
+                quantityInput.value = 1;
+                productSelect.value = '';
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        async function submitSale(isCredit = false) {
+            const formData = {
+                saleDate: document.getElementById('saleDate').value,
+                selectedClientId: document.getElementById('clientSelect').value,
+                cart: cart,
+                isCredit: isCredit
+            };
+
+            try {
+                const response = await fetch('http://localhost:8080/galana-ejb/api/sale_form', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json(); 
+
+                if (response.ok) {
+                    displayMessage(result.message || 'Sale submitted successfully!');
+                    cart = [];
+                    updateCart();
+                    document.getElementById('saleForm').reset();
+                } else {
+                    displayMessage(result.message || 'Error submitting sale');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                displayMessage('Error submitting sale: ' + error.message);
+            }
+        }
+
+        document.getElementById('addToCartBtn').addEventListener('click', addToCart);
+        
+        document.getElementById('saleForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitSale(false);
+        });
+
+        document.getElementById('creditSaleBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to process this as a credit sale?')) {
+                submitSale(true);
+            }
+        });
+
+        function displayMessage(msg) {
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.innerText = msg;
+            messageContainer.classList.remove('d-none');
+        }
+    </script>
+}

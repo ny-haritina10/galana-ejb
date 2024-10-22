@@ -1,0 +1,87 @@
+@model List<boutique.Models.SaleInvoice>
+
+<h2>Cash Status</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Total Cash</h5>
+                <p class="card-text"><strong>$@ViewBag.TotalCash.ToString("F2")</strong></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">PAYE Total</h5>
+                <p class="card-text"><strong>$@Model.Where(i => i.InvoiceType == "PAYE").Sum(i => i.TotalAmount).ToString("F2")</strong></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">CREDIT Total</h5>
+                <p class="card-text"><strong>$@Model.Where(i => i.InvoiceType != "PAYE").Sum(i => i.TotalAmount).ToString("F2")</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>PAYE Invoices</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Invoice ID</th>
+            <th>Order ID</th>
+            <th>Client ID</th>
+            <th>Order Date</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model.Where(i => i.InvoiceType == "PAYE"))
+        {
+            <tr>
+                <td>@invoice.Id</td>
+                <td>@invoice.Order.Id</td>
+                <td>@invoice.Order.IdClient</td>
+                <td>@invoice.Order.DateOrder.ToString("MMM dd, yyyy")</td>
+                <td>$@invoice.TotalAmount.ToString("F2")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>CREDIT Invoices</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Invoice ID</th>
+            <th>Order ID</th>
+            <th>Client ID</th>
+            <th>Order Date</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model.Where(i => i.InvoiceType != "PAYE"))
+        {
+            <tr>
+                <td>@invoice.Id</td>
+                <td>@invoice.Order.Id</td>
+                <td>@invoice.Order.IdClient</td>
+                <td>@invoice.Order.DateOrder.ToString("MMM dd, yyyy")</td>
+                <td>$@invoice.TotalAmount.ToString("F2")</td>
+            </tr>
+        }
+    </tbody>
+</table>

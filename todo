@@ -116,11 +116,20 @@
                 - anomaly in L
 
 
-
-
-Commnent faire pour avoir cette view a partir de ma base de donnée et de mes views. Voici le tableau 
-Pompe | Date | Current quantity (in L) | Expected quantity (in L) | current mesure (in cm) | excpected mesure(in cm) | anomalie in cm | anomalie in L |
-
-Voici l'explication, je veux creer une application qui va gerer une station d'essence. Il y a des Pompiste qui se chargent du prelevement de l'essence sur le compteur. J'ai deja créé des views pour gerer ces fonctionnnalité . Mais maintenant, je veux ajouter une fonctionnnalité de verification d'anomalie. Pour verifier une anomalie, il y a un formulaire qui permet d'inserer les mesures des cuves. Ce mesures sont donc en cm. Et pour chaque cuve, il y a une table pour stocker la reference des cuves, voir la table CuveReference ... On va donc stocker dans cette table la quantité (L) contenue pour chaque CM du Cuve. La mesure en cm de l'essence dans la cuve est donc stocké dans la table Mesurement. Par exemple, mesure 1 : 20cm, mesure 2: 15cm, mesure 3: 11cm ... La quantité consommé ets donc la difference entre la mesure precedente et la mesure actuel ... 
-En ensuite pour calculé les anomalie, si la difference entre la quantité mesuré - quantité vendue est diffente , il y a une anomalie ...
-As tu compris ce que je veux faire ? Peux tu me suggerer une approche pour resoudre ce probleme ... Tu peux creer plusieurs , si necessaire, pour resoudre le probleme ... J'utilise Oracle comme db ... 
+Client Web :
+    + FRONT OFFICE
+        + ASP.NET
+            - List produit 
+            - produit type boutique
+            - pu vente & pu achat
+            - etat de stock **
+            - vente de produit direct **
+                - qte
+                - prix de vente
+            - No database access
+            - scenario : 
+                - misy olona tonga ao am caisse dia mi payé zavatra 
+                - payement direct 
+                    - produit , qte
+                - handle facture 
+                - handle etat de stock

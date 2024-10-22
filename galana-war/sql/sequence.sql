@@ -8,3 +8,8 @@ CREATE SEQUENCE seq_encaissement;
 CREATE SEQUENCE seq_cuvereference;
 CREATE SEQUENCE seq_mesurement;
 CREATE SEQUENCE seq_creance;
+
+CREATE SEQUENCE seq_order;
+CREATE SEQUENCE seq_order_items;
+CREATE SEQUENCE seq_sale_invoices;
+CREATE SEQUENCE seq_stock;

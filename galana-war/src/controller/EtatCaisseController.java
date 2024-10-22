@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import ejb.EcritureServiceRemote;
 import ejb.EtatCaisseServiceRemote;
 import mg.cnaps.compta.ComptaSousEcriture;
-import caisse.EtatDeCaisse;
 
 public class EtatCaisseController extends HttpServlet {
 

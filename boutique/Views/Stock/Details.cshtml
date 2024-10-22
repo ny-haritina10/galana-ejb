@@ -1,0 +1,26 @@
+@model boutique.Models.StockDetail
+
+<h2>Stock Detail</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Stock Information</h5>
+        <p><strong>Stock ID:</strong> @Model.StockId</p>
+        <p><strong>Date:</strong> @Model.DateSession.ToString("MMMM dd, yyyy")</p>
+        <p><strong>Product ID:</strong> @Model.ProductId</p>
+        <p><strong>Product Name:</strong> @Model.ProductName</p>
+        <p><strong>Type:</strong> @Model.TypeProduct</p>
+        <p><strong>Quantity In:</strong> @Model.QuantityIn</p>
+        <p><strong>Quantity Out:</strong> @Model.QuantityOut</p>
+        <p><strong>Initial Quantity:</strong> @Model.InitialQuantity</p>
+        <p><strong>Purchase Price:</strong> $@Model.PurchasePrice.ToString("F2")</p>
+        <p><strong>Sale Price:</strong> $@Model.SalePrice.ToString("F2")</p>
+    </div>
+</div>
+
+<a href="@Url.Action("Index")" class="btn btn-secondary mt-3">Back to List</a>

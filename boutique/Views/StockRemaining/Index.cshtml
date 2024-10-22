@@ -1,0 +1,30 @@
+@model List<boutique.Models.StockRemaining>
+
+<h2>Stock Remaining</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Initial Quantity</th>
+            <th>Remaining Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stock in Model)
+        {
+            <tr>
+                <td>@stock.ProductId</td>
+                <td>@stock.ProductName</td>
+                <td>@stock.InitialQuantity</td>
+                <td>@stock.RemainingQuantity</td>
+            </tr>
+        }
+    </tbody>
+</table>

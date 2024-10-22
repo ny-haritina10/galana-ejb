@@ -1,0 +1,132 @@
+@model boutique.Models.Invoice
+
+<h2>Invoice Details</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Order Information</h5>
+        <p><strong>Order ID:</strong> @Model.OrderId</p>
+        <p><strong>Client ID:</strong> <input type="text" id="clientId" value="@Model.ClientId" class="form-control" /></p>
+        <p><strong>Order Date:</strong> <input type="date" id="orderDate" value="@Model.OrderDate.ToString("yyyy-MM-dd")" class="form-control" /></p>
+    </div>
+</div>
+
+<table class="table mt-4" id="invoiceTable">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Line Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr data-product-id="@item.IdProduct" data-unit-price="@item.UnitPrice">
+                <td>@item.ProductName</td>
+                <td>
+                    <input type="number" class="form-control quantity-input" value="@item.ProductQuantity" min="1">
+                </td>
+                <td>$@item.UnitPrice.ToString("F2")</td>
+                <td class="line-total">$@item.LineTotal.ToString("F2")</td>
+                <input type="hidden" id="hiddenInvoiceId" value="@item.IdInvoice" />
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3"><strong>Total Invoice Amount</strong></td>
+            <td id="totalInvoiceAmount"><strong>$@Model.TotalInvoiceAmount.ToString("F2")</strong></td>
+        </tr>
+    </tfoot>
+</table>
+
+<button id="updateInvoice" class="btn btn-primary">Update Invoice</button>
+<a href="@Url.Action("Index")" class="btn btn-secondary">Back to List</a>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = document.getElementById('invoiceTable');
+            const quantityInputs = table.querySelectorAll('.quantity-input');
+            const updateButton = document.getElementById('updateInvoice');
+
+            quantityInputs.forEach(input => {
+                input.addEventListener('change', updateLineTotalAndInvoiceAmount);
+            });
+
+            updateButton.addEventListener('click', submitInvoiceUpdate);
+
+            function updateLineTotalAndInvoiceAmount(event) {
+                const row = event.target.closest('tr');
+                const quantity = parseInt(event.target.value);
+                const unitPrice = parseFloat(row.dataset.unitPrice);
+                const lineTotal = quantity * unitPrice;
+
+                row.querySelector('.line-total').textContent = '$' + lineTotal.toFixed(2);
+
+                updateTotalInvoiceAmount();
+            }
+
+            function updateTotalInvoiceAmount() {
+                const lineTotals = table.querySelectorAll('.line-total');
+                let total = 0;
+
+                lineTotals.forEach(cell => {
+                    total += parseFloat(cell.textContent.replace('$', ''));
+                });
+
+                document.getElementById('totalInvoiceAmount').innerHTML = '<strong>$' + total.toFixed(2) + '</strong>';
+            }
+
+            function submitInvoiceUpdate() {
+                const invoiceId = document.getElementById('hiddenInvoiceId').value;
+                const clientId = document.getElementById('clientId').value;
+                const orderDate = document.getElementById('orderDate').value;
+                const cart = [];
+
+                table.querySelectorAll('tbody tr').forEach(row => {
+                    cart.push({
+                        productId: parseInt(row.dataset.productId),
+                        quantity: parseInt(row.querySelector('.quantity-input').value)
+                    });
+                });
+
+                const data = {
+                    invoiceId: parseInt(invoiceId),
+                    selectedClientId: clientId,
+                    saleDate: orderDate,
+                    cart: cart
+                };
+
+                fetch('http://localhost:8080/galana-ejb/api/sale_form', {                    
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        // Optionally, reload the page or update the UI
+                        location.reload();
+                    } else if (data.error) {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating the invoice.');
+                });
+            }
+        });
+    </script>
+}

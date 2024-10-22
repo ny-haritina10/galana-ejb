@@ -74,8 +74,6 @@ public class Prelevement extends BaseModel<Prelevement> {
             if (affectedRows == 0) {
                 throw new SQLException("Inserting Prelevement failed, no rows affected.");
             }
-
-            System.out.println("----PRELEV INSERTED------");
         } 
         
         finally {

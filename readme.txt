@@ -1,4 +1,4 @@
--> dossier EJB : a copier dans gestion-station/station-ejb/src/java
+-> dossier centrale : a copier dans gestion-station/station-ejb/src/java
 -> copier le fichier send.xml dans gestion-station (meme niveau station-ejb, station-war)
 -> modifier tous les fichiers apj.properties
 	-> modifier les credentials (user, mdp, url) vers l'user nanaovana import an'ilay base.dmp

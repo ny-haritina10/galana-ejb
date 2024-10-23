@@ -79,11 +79,17 @@ const EncaissementForm = () => {
         selectedValue={selectedPrelevementId}
         onValueChange={(itemValue) => setSelectedPrelevementId(itemValue)}
       >
-        {prelevements.map(prelevement => (
-          <Picker.Item key={prelevement.id} label={`${prelevement.product.name} - Amount: ${prelevement.amount}`} value={prelevement.id} />
-        ))}
+        {prelevements
+          .sort((a, b) => a.id - b.id)  // Sort by id in ascending order (for descending, use b.id - a.id)
+          .map(prelevement => (
+            <Picker.Item 
+              key={prelevement.id} 
+              label={`ID: ${prelevement.id} - ${prelevement.product.name} - Amount: ${prelevement.amount}`} 
+              value={prelevement.id} 
+            />
+          ))}
       </Picker>
-
+      
       <Text style={styles.label}>Montant à encaisser:</Text>
       <TextInput
         style={styles.input}

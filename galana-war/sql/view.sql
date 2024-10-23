@@ -27,9 +27,9 @@ WITH Sessions AS (
         id_pompe,
         amount,
         date_prelevement,
-        LAG(amount) OVER (PARTITION BY id_pompiste, id_pompe ORDER BY date_prelevement, amount) AS amount_previous,
+        LAG(amount) OVER (PARTITION BY id_pompiste, id_pompe ORDER BY date_prelevement, id) AS amount_previous,
         LAG(date_prelevement) OVER (PARTITION BY id_pompiste, id_pompe ORDER BY date_prelevement) AS date_previous,
-        ROW_NUMBER() OVER (PARTITION BY id_pompiste, id_pompe ORDER BY date_prelevement, amount) AS rn,
+        ROW_NUMBER() OVER (PARTITION BY id_pompiste, id_pompe ORDER BY date_prelevement, id) AS rn,
         CASE 
             WHEN MOD(ROW_NUMBER() OVER (PARTITION BY id_pompiste, id_pompe ORDER BY date_prelevement), 2) = 0 THEN 'TRUE'
             ELSE 'FALSE'
@@ -61,8 +61,8 @@ SELECT
     id_product,
     id_pompe,
     TRUNC(date_end_session) AS date_vente,  
-    SUM(amount_end - amount_beginning) AS somme_ventes,
-    SUM(amount_end - amount_beginning) / p.PU_vente AS qte_in_liter
+    ABS(SUM(COALESCE(amount_end - amount_beginning, 0))) AS somme_ventes,
+    ABS(SUM(COALESCE(amount_end - amount_beginning, 0)) / p.PU_vente) AS qte_in_liter
 FROM 
     v_pompe_ventes
 JOIN 
@@ -78,6 +78,7 @@ GROUP BY
 ORDER BY
     id_pompe,
     date_vente;
+
 
 
 /*============================================= */
@@ -231,6 +232,7 @@ JOIN
 --
 -- RESTE
 --
+
 CREATE OR REPLACE VIEW v_stock_remaining AS
 SELECT 
     p.id AS product_id,
@@ -241,9 +243,10 @@ SELECT
     (p.qte_initial + COALESCE(SUM(s.quantity_in), 0) - COALESCE(SUM(s.quantity_out), 0)) AS remaining_quantity
 FROM 
     Product p
-WHERE 
-    p.type_product = 'BOUTIQUE'
 LEFT JOIN 
     Stock s ON p.id = s.id_product
+WHERE 
+    p.type_product = 'BOUTIQUE' OR p.type_product = 'MIXTE' 
+
 GROUP BY 
     p.id, p.name, p.qte_initial;

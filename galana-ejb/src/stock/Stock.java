@@ -78,7 +78,7 @@ public class Stock extends BaseModel<Stock> {
 
             statement.setInt(1, product.getId());
             statement.setDate(2, dateSession);
-            statement.setInt(3, quantity); // Reverse the quantity out by adding it back as quantity in
+            statement.setInt(3, quantity); // reverse the quantity out by adding it back as quantity in
             statement.setInt(4, 0);
 
             int affectedRows = statement.executeUpdate();
@@ -86,7 +86,8 @@ public class Stock extends BaseModel<Stock> {
             if (affectedRows == 0) {
                 throw new SQLException("Reversing stock adjustment failed, no rows affected.");
             }
-        } finally {
+        } 
+        finally {
             if (statement != null) {
                 statement.close();
             }

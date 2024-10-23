@@ -13,7 +13,7 @@ public class Creance {
         throws Exception
     {
         Map<String, Double> clientBalances = new HashMap<>();
-
+  
         for (ComptaSousEcriture entry : list) {
             String compte = entry.getCompte();
             LocalDate date = entry.getDaty().toLocalDate();

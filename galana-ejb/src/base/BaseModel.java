@@ -103,5 +103,47 @@ public abstract class BaseModel<T> {
         return getById(id, clazz, con, null);
     }
 
+    public Integer getMaxId(Connection con, String tableName) 
+        throws Exception 
+    {
+        Integer maxId = null;
+        boolean valid = true;
+        Statement state = null;
+        ResultSet result = null;
+    
+        try {
+            if (con == null) {
+                con = Database.getConnection();
+                valid = false;
+            }
+    
+            String actualTableName = tableName != null ? tableName : this.getClass().getSimpleName();
+            String sql = "SELECT MAX(id) AS max_id FROM " + actualTableName;
+    
+            state = con.createStatement();
+            result = state.executeQuery(sql);
+    
+            if (result.next()) {
+                maxId = result.getInt("max_id");
+            }
+        } 
+
+        catch (Exception e) 
+        { e.printStackTrace(); } 
+
+        finally {
+            try {
+                if (state != null) state.close();
+                if (result != null) result.close();
+                if (!valid || con != null) con.close();
+            } 
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    
+        return maxId;
+    }    
+
     protected abstract T mapRow(ResultSet result) throws Exception;
 }

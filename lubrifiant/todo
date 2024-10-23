@@ -1,0 +1,48 @@
+## TODO Lubrifiant
+
+# FIX:
+    - Adjust quantity in Boutique sale (DONE)
+        - add validation
+        - operation fails when stock shortage
+        
+    - Ecriture stock, achat et vente
+    - ENUMS in table Product
+
+# FUNCTIONNALITY
+    - adding stock lubrifiant (DONE)
+        - decrease stock after each SORTIE POMPISTE
+        - decrease value: 
+            - AMOUNT / PU_VENTE
+
+    - check stock before SORTIE POMPISTE (DONE)
+        - is stock enough
+        - error handling
+
+    - Check gestion-station CLASS
+        - add to our vente
+
+
+
+
+/* --------------------------------------------- */
+
+I have an app to manage a gas station, i have a functionnality who manage pump and products sampling.
+A pompist enters a pump, he puts in the first record (input counter) and leave with an output counter ... For the product with p.type_product = 'UNDEFINED', the input counter is less than the output counter, this product has as an unit the Liter (10 liter of essence for example), and for the p.type_product = 'MIXTE', it's the opposite, those products has as an unit a bootle (10 bootle of gasoline lubricants) ...
+Here is the problem, i have created a scenario and calculated the excpected result with this table:         
+
+Product     | Pu_Vente | Qte In | Qte Out | Qte Vendue      | Total Amount
+Essence     | 4.000    | 0      | 100L    | 100 L           | 400.000$
+Lub.Essence | 4        | 50     | 40      | 10 Bouteilles   | 40$ 
+Lub.Gasoil  | 5        | 50     | 20      | 30 Bouteilles   | 150$
+
+
+But, when i input the same products in my app, here is my output: 
+
+id_prelevement | id_product | id_pompe  | date_ventes            | sommes_ventes | qte_in_liter  
+139	           | 2	        | 3	        | 2024-10-23 00:00:00.000|	    399750	 |       99.9375
+140	           | 25	        | 3	        | 2024-10-23 00:00:00.000|	    40	     |       10
+143	           | 26	        | 3	        | 2024-10-23 00:00:00.000|	    100	     |       20
+
+
+What's the problems ?? 
+Here is my database scheme and views : 

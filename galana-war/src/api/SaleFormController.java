@@ -71,7 +71,6 @@ public class SaleFormController extends HttpServlet {
         }
     }
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
         throws ServletException, IOException 
@@ -147,18 +146,19 @@ public class SaleFormController extends HttpServlet {
             Product product = new Product().getById(productId, Product.class, null);
             Stock.QuantityResult result = Stock.checkAndAdjustQuantity(product, quantity, saleDate);
 
+            if (result.excessQuantity > 0) {
+                // send a message request and stop the sale
+                message.append("Stock shortage for product: " + product.getName() + 
+                    ". Requested: " + quantity + ", Available: " + result.adjustedQuantity + "\n");
 
+                return message;
+            }
 
             OrderItem orderItem = new OrderItem(1, insertedOrder, product, result.adjustedQuantity);
             orderItem.insert(null);
 
             Stock stock = new Stock(1, product, saleDate, 0, result.adjustedQuantity);
             stock.insert(null);
-
-            if (result.excessQuantity > 0) {
-                message.append("Stock shortage for product: " + product.getName() + 
-                    ". Requested: " + quantity + ", Available: " + result.adjustedQuantity + "\n");
-            }
         }
 
         SaleInvoice invoice = new SaleInvoice(1, insertedOrder, insertedOrder.getSumAmount(null));

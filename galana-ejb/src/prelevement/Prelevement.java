@@ -1,7 +1,7 @@
 package prelevement;
 
 import java.sql.*;
-import java.util.Date;
+
 import base.BaseModel;
 import database.Database;
 import pompiste.Pompiste;
@@ -29,6 +29,54 @@ public class Prelevement extends BaseModel<Prelevement> {
         setDatePrelevement(datePrelevement);
     }
 
+    public static int getMaxId() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        int maxId = 0;
+    
+        try {
+            connection = Database.getConnection();
+    
+            String sql = "SELECT MAX(id) FROM Prelevement";
+            statement = connection.prepareStatement(sql);
+    
+            resultSet = statement.executeQuery();
+    
+            if (resultSet.next()) {
+                maxId = resultSet.getInt(1);  
+            }
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        } 
+        finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    
+        return maxId;
+    }    
+
     public double getPrelevementDifference() {
         String sql = "SELECT somme_ventes FROM v_ventes_per_pompe_and_date WHERE id_prelevement = ?";
         double sommeVentes = 0.0; 
@@ -47,7 +95,27 @@ public class Prelevement extends BaseModel<Prelevement> {
         { e.printStackTrace(); }
     
         return sommeVentes;
-    }    
+    }  
+    
+    public double getPrelevementDifferenceQte() {
+        String sql = "SELECT qte_in_liter FROM v_ventes_per_pompe_and_date WHERE id_prelevement = ?";
+        double sommeVentes = 0.0; 
+    
+        try (Connection connection = Database.getConnection(); 
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+    
+            statement.setInt(1, this.getId());
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) 
+            { sommeVentes = resultSet.getDouble("qte_in_liter"); }
+        } 
+        
+        catch (SQLException e) 
+        { e.printStackTrace(); }
+    
+        return sommeVentes;
+    }  
 
     public void insert(Connection connection) 
         throws SQLException 

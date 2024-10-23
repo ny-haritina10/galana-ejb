@@ -11,6 +11,7 @@ import {
 import PrelevementForm from '@/components/PrelevementForm';
 import EncaissementForm from '@/components/EncaissementForm';
 import VenteProductList from '@/components/VenteProductList';
+import StockList from '@/components/StockList';
 
 const SIDEBAR_WIDTH = 250;
 const HEADER_HEIGHT = 60;
@@ -20,6 +21,7 @@ export default function Index() {
   const [showPrelevementForm, setShowPrelevementForm] = useState(false);
   const [showEncaissementForm, setShowEncaissementForm] = useState(false);
   const [showVenteProductList, setShowVenteProductList] = useState(false);
+  const [showStockList, setShowStockList] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   const sidebarAnimation = useRef(new Animated.Value(-SIDEBAR_WIDTH)).current;
@@ -123,6 +125,17 @@ export default function Index() {
               }}
               isActive={showVenteProductList}
             />
+            <SidebarButton 
+              title="Stock List" 
+              onPress={() => {
+                setShowStockList(!showStockList);
+                setShowPrelevementForm(false);
+                setShowEncaissementForm(false);
+                setShowVenteProductList(false);
+                toggleSidebar();
+              }}
+              isActive={showStockList}
+            />
           </View>
         </Animated.View>
 
@@ -130,7 +143,8 @@ export default function Index() {
           {showPrelevementForm && <PrelevementForm />}
           {showEncaissementForm && <EncaissementForm />}
           {showVenteProductList && <VenteProductList />}
-          {!showPrelevementForm && !showEncaissementForm && !showVenteProductList && (
+          {showStockList && <StockList />}
+          {!showStockList && !showPrelevementForm && !showEncaissementForm && !showVenteProductList && (
             <Text style={styles.placeholder}>
               Sélectionnez une option dans le menu
             </Text>

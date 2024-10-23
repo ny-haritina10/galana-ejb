@@ -18,5 +18,6 @@ initializeIP();
 export const API_ENDPOINTS = {
   prelevement_lubrifiants: `${API_BASE_URL}/prelevement_lubrifiants`,
   encaissement_lubrifiants: `${API_BASE_URL}/encaissement_lubrifiants`,
-  vente_products: `${API_BASE_URL}/vente_products`
+  vente_products: `${API_BASE_URL}/vente_products`,
+  stock_remaining: `${API_BASE_URL}/stock_remaining`
 };

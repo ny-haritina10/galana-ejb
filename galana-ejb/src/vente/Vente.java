@@ -24,7 +24,6 @@ public class Vente extends BaseModel<Vente> {
         setSommeVentes(sommeVentes);
     }
 
-    
     public Product getProduct() {
         return product;
     }

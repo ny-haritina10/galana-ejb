@@ -131,12 +131,9 @@ public class PrelevementLubrifiantController extends HttpServlet {
                 Prelevement lastPrelev = new Prelevement().getById(idMaxPrelevement, Prelevement.class, null);
 
                 if (idMaxPrelevement % 2 != 0) {     
-
-                    
                     System.out.println("#====================================#");
                     System.out.println(product.getName() + " PU.V: " + product.getPuVente() + " DIFF QTE: " + lastPrelev.getPrelevementDifferenceQte() + " DIFF AMOUNT" + lastPrelev.getPrelevementDifference());
                     System.out.println("#====================================#");
-
 
                     Stock stock = new Stock(1, product, lastPrelev.getDatePrelevement(), 0, (int) lastPrelev.getPrelevementDifferenceQte());
                     stock.insert(null);

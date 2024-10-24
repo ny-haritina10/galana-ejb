@@ -1,4 +1,3 @@
-// EncaissementForm.tsx
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -40,6 +39,7 @@ const EncaissementForm = () => {
       const data = await response.json();
       setPrelevements(data.prelevements); 
     };
+
     fetchData();
   }, []);
 
@@ -80,7 +80,7 @@ const EncaissementForm = () => {
         onValueChange={(itemValue) => setSelectedPrelevementId(itemValue)}
       >
         {prelevements
-          .sort((a, b) => a.id - b.id)  // Sort by id in ascending order (for descending, use b.id - a.id)
+          .sort((a, b) => a.id - b.id)  // Sort by id in ascending order 
           .map(prelevement => (
             <Picker.Item 
               key={prelevement.id} 

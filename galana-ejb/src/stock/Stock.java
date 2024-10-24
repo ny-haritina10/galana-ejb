@@ -66,7 +66,9 @@ public class Stock extends BaseModel<Stock> {
         }
     }
 
-    public static void reverseStockAdjustment(Product product, int quantity, Date dateSession) throws Exception {
+    public static void reverseStockAdjustment(Product product, int quantity, Date dateSession) 
+        throws Exception 
+    {
         Connection connection = null;
         PreparedStatement statement = null;
 

@@ -32,10 +32,6 @@ public class SaleInvoiceDetail extends BaseModel<SaleInvoiceDetail> {
         setIdInvoice(idInvoice);
     }
 
-    
-
-    
-
     public int getOrderId() {
         return orderId;
     }

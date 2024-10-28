@@ -80,7 +80,7 @@ const EncaissementForm = () => {
         onChangeText={setMontantEncaisser}
         keyboardType="numeric"
         placeholder="Enter amount"
-        placeholderTextColor="#7d7d7d"
+        placeholderTextColor="#A0AEC0"
       />
 
       <Text style={styles.label}>Date d'encaissement:</Text>
@@ -89,11 +89,11 @@ const EncaissementForm = () => {
         value={dateEncaissement}
         onChangeText={setDateEncaissement}
         placeholder="YYYY-MM-DD"
-        placeholderTextColor="#7d7d7d"
+        placeholderTextColor="#A0AEC0"
       />
 
       <View style={styles.buttonContainer}>
-        <Button title="Submit" onPress={handleSubmit} color="#5A67D8" />
+        <Button title="Submit" onPress={handleSubmit} color="#4C51BF" />
       </View>
     </View>
   );
@@ -101,47 +101,48 @@ const EncaissementForm = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: 24,
+    marginVertical: 10,
     width: '90%',
     alignSelf: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
+    backgroundColor: '#F7FAFC',
+    borderRadius: 12,
+    shadowColor: '#171717',
+    shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 8,
+    shadowRadius: 10,
+    elevation: 10,
   },
   label: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
-    marginBottom: 10,
-    color: '#2D3748',
+    marginBottom: 8,
+    color: '#2A4365',
   },
   picker: {
-    height: 50,
+    height: 55,
     width: '100%',
-    marginBottom: 20,
-    backgroundColor: '#EDF2F7',
+    marginBottom: 18,
+    backgroundColor: '#E2E8F0',
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#CBD5E0',
     paddingHorizontal: 10,
   },
   input: {
-    height: 50,
+    height: 55,
     width: '100%',
-    marginBottom: 20,
+    marginBottom: 18,
     paddingHorizontal: 15,
-    backgroundColor: '#EDF2F7',
+    backgroundColor: '#E2E8F0',
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#CBD5E0',
-    fontSize: 16,
+    fontSize: 17,
     color: '#2D3748',
   },
   buttonContainer: {
-    marginTop: 10,
+    marginTop: 12,
     borderRadius: 8,
     overflow: 'hidden',
   },

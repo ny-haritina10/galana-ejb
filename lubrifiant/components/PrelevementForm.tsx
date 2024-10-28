@@ -24,7 +24,6 @@ const PrelevementForm = () => {
   const [pompes, setPompes] = useState<Pompe[]>([]);
   const [pompistes, setPompistes] = useState<Pompiste[]>([]);
 
-  // New state for selected values and inputs
   const [selectedProduct, setSelectedProduct] = useState<number | undefined>(undefined);
   const [selectedPompe, setSelectedPompe] = useState<number | undefined>(undefined);
   const [selectedPompiste, setSelectedPompiste] = useState<number | undefined>(undefined);
@@ -32,7 +31,6 @@ const PrelevementForm = () => {
   const [datePrelevement, setDatePrelevement] = useState<string>(new Date().toISOString().split('T')[0]);
 
   useEffect(() => {
-    // Fetch data from the backend API
     const fetchData = async () => {
       const response = await fetch(API_ENDPOINTS.prelevement_lubrifiants);
       const data = await response.json();
@@ -43,15 +41,12 @@ const PrelevementForm = () => {
     fetchData();
   }, []);
 
-  // Handle form submission
   const handleSubmit = async () => {
-    // Validate required fields
     if (!selectedProduct || !selectedPompe || !selectedPompiste || !quantity || !datePrelevement) {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
   
-    // Construct the data object
     const data = {
       productId: selectedProduct,
       pompeId: selectedPompe,
@@ -73,28 +68,7 @@ const PrelevementForm = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
   
-      const responseText = await response.text();
-      console.log('Raw response:', responseText);
-  
-      // Add additional validation to ensure we have valid JSON
-      if (!responseText.trim()) {
-        throw new Error('Empty response received from server');
-      }
-  
-      let responseData;
-      try {
-        // Remove any BOM and control characters before parsing
-        const cleanText = responseText
-          .replace(/^\uFEFF/, '') // Remove BOM if present
-          .replace(/[\u0000-\u001F]+/g, ' ') // Replace control characters with space
-          .trim();
-        responseData = JSON.parse(cleanText);
-      } catch (parseError) {
-        console.error('JSON Parse error:', parseError);
-        Alert.alert('Error', 'Invalid response from server');
-        return;
-      }
-  
+      const responseData = await response.json();
       if (responseData.status === 'success') {
         Alert.alert(
           'Success',
@@ -102,7 +76,6 @@ const PrelevementForm = () => {
           [{ 
             text: 'OK',
             onPress: () => {
-              // Reset form after successful submission
               setSelectedProduct(undefined);
               setSelectedPompe(undefined);
               setSelectedPompiste(undefined);
@@ -112,11 +85,7 @@ const PrelevementForm = () => {
           }]
         );
       } else {
-        Alert.alert(
-          'Warning',
-          responseData.message,
-          [{ text: 'OK', onPress: () => console.log('Warning alert closed') }]
-        );
+        Alert.alert('Warning', responseData.message);
       }
     } catch (error) {
       console.error('Network error:', error);
@@ -169,6 +138,7 @@ const PrelevementForm = () => {
         onChangeText={setQuantity}
         keyboardType="numeric"
         placeholder="Enter quantity"
+        placeholderTextColor="#A0AEC0"
       />
 
       <Text style={styles.label}>Date of Prelevement:</Text>
@@ -177,42 +147,62 @@ const PrelevementForm = () => {
         value={datePrelevement}
         onChangeText={setDatePrelevement}
         placeholder="YYYY-MM-DD"
+        placeholderTextColor="#A0AEC0"
       />
 
-      <Button title="Submit" onPress={handleSubmit} />
+      <View style={styles.buttonContainer}>
+        <Button title="Submit" onPress={handleSubmit} color="#4C51BF" />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    width: '100%',
-    alignItems: 'flex-start',
+    padding: 24,
+    marginVertical: 10,
+    width: '90%',
+    alignSelf: 'center',
+    backgroundColor: '#F7FAFC',
+    borderRadius: 12,
+    shadowColor: '#171717',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 10,
   },
   label: {
     fontSize: 18,
-    marginBottom: 10,
-    color: '#333',
+    fontWeight: '600',
+    marginBottom: 8,
+    color: '#2A4365',
   },
   picker: {
-    height: 50,
+    height: 55,
     width: '100%',
-    marginBottom: 20,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 5,
+    marginBottom: 18,
+    backgroundColor: '#E2E8F0',
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#CBD5E0',
+    paddingHorizontal: 10,
   },
   input: {
-    height: 50,
+    height: 55,
     width: '100%',
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 5,
+    marginBottom: 18,
+    paddingHorizontal: 15,
+    backgroundColor: '#E2E8F0',
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#CBD5E0',
+    fontSize: 17,
+    color: '#2D3748',
+  },
+  buttonContainer: {
+    marginTop: 12,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
 });
 

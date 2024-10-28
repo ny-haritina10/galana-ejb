@@ -17,6 +17,23 @@ const SIDEBAR_WIDTH = 250;
 const HEADER_HEIGHT = 60;
 const STATUSBAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0;
 
+interface SidebarButtonProps {
+  title: string;
+  onPress: () => void;
+  isActive: boolean;
+}
+
+const SidebarButton = ({ title, onPress, isActive }: SidebarButtonProps) => (
+  <TouchableOpacity
+    style={[styles.sidebarButton, isActive && styles.sidebarButtonActive]}
+    onPress={onPress}
+  >
+    <Text style={[styles.sidebarButtonText, isActive && styles.sidebarButtonTextActive]}>
+      {title}
+    </Text>
+  </TouchableOpacity>
+);
+
 export default function Index() {
   const [showPrelevementForm, setShowPrelevementForm] = useState(false);
   const [showEncaissementForm, setShowEncaissementForm] = useState(false);
@@ -28,50 +45,21 @@ export default function Index() {
 
   const toggleSidebar = () => {
     const toValue = isSidebarOpen ? -SIDEBAR_WIDTH : 0;
-    
     Animated.timing(sidebarAnimation, {
       toValue,
       duration: 300,
       useNativeDriver: true,
     }).start();
-    
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const MenuIcon = () => (
-    <Text style={styles.menuIcon}>☰</Text>
-  );
-
-  const CloseIcon = () => (
-    <Text style={styles.menuIcon}>✕</Text>
-  );
-
-  const SidebarButton = ({ title, onPress, isActive }: { 
-    title: string; 
-    onPress: () => void;
-    isActive: boolean;
-  }) => (
-    <TouchableOpacity
-      style={[styles.sidebarButton, isActive && styles.sidebarButtonActive]}
-      onPress={onPress}
-    >
-      <Text style={[
-        styles.sidebarButtonText,
-        isActive && styles.sidebarButtonTextActive
-      ]}>
-        {title}
-      </Text>
-    </TouchableOpacity>
-  );
+  const MenuIcon = () => <Text style={styles.menuIcon}>☰</Text>;
+  const CloseIcon = () => <Text style={styles.menuIcon}>✕</Text>;
 
   return (
     <View style={styles.container}>
       {isSidebarOpen && (
-        <TouchableOpacity
-          style={styles.overlay}
-          activeOpacity={1}
-          onPress={toggleSidebar}
-        />
+        <TouchableOpacity style={styles.overlay} activeOpacity={1} onPress={toggleSidebar} />
       )}
 
       <View style={styles.headerContainer}>
@@ -79,9 +67,7 @@ export default function Index() {
           <TouchableOpacity onPress={toggleSidebar} style={styles.menuButton}>
             {isSidebarOpen ? <CloseIcon /> : <MenuIcon />}
           </TouchableOpacity>
-          <View style={styles.title}>
-            <Text style={styles.title}>Lubrifiant GALANA</Text>
-          </View>
+          <Text style={styles.title}>Lubrifiant GALANA</Text>
         </View>
       </View>
 
@@ -89,9 +75,7 @@ export default function Index() {
         <Animated.View 
           style={[
             styles.sidebar,
-            {
-              transform: [{ translateX: sidebarAnimation }],
-            },
+            { transform: [{ translateX: sidebarAnimation }] },
           ]}
         >
           <View style={styles.sidebarContent}>
@@ -155,17 +139,16 @@ export default function Index() {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F7FAFC',
   },
   headerContainer: {
     paddingTop: STATUSBAR_HEIGHT,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#e2e8f0',
     zIndex: 3,
   },
   contentContainer: {
@@ -194,13 +177,15 @@ const styles = StyleSheet.create({
   },
   menuIcon: {
     fontSize: 24,
+    color: '#4A5568',
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: '600',
     marginLeft: 20,
     flex: 1,
     textAlign: 'center',
+    color: '#2D3748',
   },
   sidebar: {
     position: 'absolute',
@@ -210,47 +195,40 @@ const styles = StyleSheet.create({
     width: SIDEBAR_WIDTH,
     backgroundColor: '#fff',
     zIndex: 2,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 2, height: 0 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 0 },
+    shadowOpacity: 0.15,
+    shadowRadius: 5,
   },
   sidebarContent: {
     flex: 1,
     paddingTop: 20,
-   },
-   sidebarButton:{
-     paddingVertical :15 ,
-     paddingHorizontal :20 ,
-     borderBottomWidth :1 ,
-     borderBottomColor :'#eee' ,
-   },
-   sidebarButtonActive:{
-     backgroundColor :'#f0f0f0' ,
-   },
-   sidebarButtonText:{
-     fontSize :16 ,
-     color :'#333' ,
-   },
-   sidebarButtonTextActive:{
-     color :'#000' ,
-     fontWeight :'bold' ,
-   },
-   mainContent:{
-     flex :1 ,
-     justifyContent :'center' ,
-     alignItems :'center' ,
-     paddingHorizontal :20 ,
-   },
-   placeholder:{
-     fontSize :16 ,
-     color :'#666' ,
-   },
+  },
+  sidebarButton: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e8f0',
+  },
+  sidebarButtonActive: {
+    backgroundColor: '#EDF2F7',
+  },
+  sidebarButtonText: {
+    fontSize: 16,
+    color: '#4A5568',
+  },
+  sidebarButtonTextActive: {
+    color: '#2D3748',
+    fontWeight: 'bold',
+  },
+  mainContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  placeholder: {
+    fontSize: 16,
+    color: '#A0AEC0',
+  },
 });

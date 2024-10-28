@@ -1,6 +1,6 @@
 let API_BASE_URL = "";
 
-const IP = "192.168.88.14";
+const IP = "192.168.88.16";
 const backendProjectName = "galana-ejb";
 
 // init the API base URL

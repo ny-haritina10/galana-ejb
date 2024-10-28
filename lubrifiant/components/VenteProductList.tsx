@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { API_ENDPOINTS } from '@/config/conf'; 
+import { API_ENDPOINTS } from '@/config/conf';
 
 interface Product {
   id: number;
@@ -73,36 +73,44 @@ const VenteProductList = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
+    padding: 24,
+    backgroundColor: '#F7FAFC',
+    borderRadius: 12,
+    shadowColor: '#171717',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 10,
+    marginVertical: 10,
+    width: '90%',
+    alignSelf: 'center',
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '700',
     textAlign: 'center',
     marginBottom: 20,
+    color: '#2A4365',
   },
   list: {
     paddingBottom: 20,
   },
   itemContainer: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFFFFF',
     borderRadius: 8,
     padding: 15,
     marginVertical: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowColor: '#171717',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 5,
     elevation: 3,
   },
   itemText: {
     fontSize: 16,
-    color: '#333',
+    color: '#2D3748',
     marginBottom: 5,
+    fontWeight: '500',
   },
 });
 

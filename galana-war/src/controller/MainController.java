@@ -25,6 +25,7 @@ import mg.cnaps.compta.ComptaSousEcriture;
 import order.Order;
 import order.OrderItem;
 import utilitaire.UtilDB;
+import venteLubrifiant.VenteLubrifiant;
 
 import javax.ejb.EJB;
 
@@ -37,32 +38,26 @@ public class MainController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) 
         throws ServletException, IOException 
     {
+        Connection conn = null;
         try {
-            res.getWriter().println("Main Controller doGet");
+            
         } 
-
+        
         catch (Exception e) {
-            e.printStackTrace();
-        }
+            
+        } 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
         throws ServletException, IOException 
     {
-        // Set response content type
-        resp.setContentType("application/json");
+        try {
+            
+        } 
         
-        // read data sent from the React Native app
-        String name = req.getParameter("name");
-        String email = req.getParameter("email");
-
-        System.out.println("Received Name: " + name);
-        System.out.println("Received Email: " + email);
-
-        // send a response back to the client
-        PrintWriter out = resp.getWriter();
-        out.print("{\"status\":\"success\"}");
-        out.flush();
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

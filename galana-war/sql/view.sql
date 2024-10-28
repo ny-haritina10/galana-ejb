@@ -230,7 +230,7 @@ JOIN
     Product P ON S.id_product = P.id;
     
 --
--- RESTE
+-- RESTE STOCK
 --
 
 CREATE OR REPLACE VIEW v_stock_remaining AS

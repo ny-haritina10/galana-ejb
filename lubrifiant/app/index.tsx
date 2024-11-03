@@ -8,6 +8,7 @@ import {
   Platform,
   StatusBar,
 } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PrelevementForm from '@/components/PrelevementForm';
 import EncaissementForm from '@/components/EncaissementForm';
 import VenteProductList from '@/components/VenteProductList';
@@ -21,13 +22,15 @@ interface SidebarButtonProps {
   title: string;
   onPress: () => void;
   isActive: boolean;
+  iconName: string;
 }
 
-const SidebarButton = ({ title, onPress, isActive }: SidebarButtonProps) => (
+const SidebarButton = ({ title, onPress, isActive, iconName }: SidebarButtonProps) => (
   <TouchableOpacity
     style={[styles.sidebarButton, isActive && styles.sidebarButtonActive]}
     onPress={onPress}
   >
+    <MaterialIcons name={iconName} size={24} color={isActive ? '#2D3748' : '#4A5568'} />
     <Text style={[styles.sidebarButtonText, isActive && styles.sidebarButtonTextActive]}>
       {title}
     </Text>
@@ -35,6 +38,7 @@ const SidebarButton = ({ title, onPress, isActive }: SidebarButtonProps) => (
 );
 
 export default function Index() {
+
   const [showPrelevementForm, setShowPrelevementForm] = useState(false);
   const [showEncaissementForm, setShowEncaissementForm] = useState(false);
   const [showVenteProductList, setShowVenteProductList] = useState(false);
@@ -43,6 +47,7 @@ export default function Index() {
   
   const sidebarAnimation = useRef(new Animated.Value(-SIDEBAR_WIDTH)).current;
 
+  // handle sidebar animation
   const toggleSidebar = () => {
     const toValue = isSidebarOpen ? -SIDEBAR_WIDTH : 0;
     Animated.timing(sidebarAnimation, {
@@ -50,9 +55,11 @@ export default function Index() {
       duration: 300,
       useNativeDriver: true,
     }).start();
+
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  // icons component of the sidebar
   const MenuIcon = () => <Text style={styles.menuIcon}>☰</Text>;
   const CloseIcon = () => <Text style={styles.menuIcon}>✕</Text>;
 
@@ -80,7 +87,8 @@ export default function Index() {
         >
           <View style={styles.sidebarContent}>
             <SidebarButton 
-              title="Prelevement Formulaire" 
+              title="Faire un Prelevement" 
+              iconName="description"
               onPress={() => {
                 setShowPrelevementForm(!showPrelevementForm);
                 setShowEncaissementForm(false);
@@ -89,8 +97,10 @@ export default function Index() {
               }}
               isActive={showPrelevementForm}
             />
+
             <SidebarButton 
-              title="Encaissement Formulaire" 
+              title="Encaissé un prelevement" 
+              iconName="attach-money"
               onPress={() => {
                 setShowEncaissementForm(!showEncaissementForm);
                 setShowPrelevementForm(false);
@@ -99,8 +109,10 @@ export default function Index() {
               }}
               isActive={showEncaissementForm}
             />
+
             <SidebarButton 
-              title="Vente Product List" 
+              title="Liste des ventes" 
+              iconName="shopping-cart"
               onPress={() => {
                 setShowVenteProductList(!showVenteProductList);
                 setShowPrelevementForm(false);
@@ -109,8 +121,10 @@ export default function Index() {
               }}
               isActive={showVenteProductList}
             />
+            
             <SidebarButton 
-              title="Stock List" 
+              title="Stocks des produits" 
+              iconName="inventory"
               onPress={() => {
                 setShowStockList(!showStockList);
                 setShowPrelevementForm(false);
@@ -142,7 +156,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7FAFC',
+    backgroundColor: '#E6EEF2',
   },
   headerContainer: {
     paddingTop: STATUSBAR_HEIGHT,
@@ -169,7 +183,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#2A4365',
   },
   menuButton: {
     padding: 10,
@@ -177,7 +191,7 @@ const styles = StyleSheet.create({
   },
   menuIcon: {
     fontSize: 24,
-    color: '#4A5568',
+    color: '#fff',
   },
   title: {
     fontSize: 20,
@@ -185,7 +199,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     flex: 1,
     textAlign: 'center',
-    color: '#2D3748',
+    color: '#fff',
   },
   sidebar: {
     position: 'absolute',
@@ -205,20 +219,23 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   sidebarButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#e2e8f0',
   },
   sidebarButtonActive: {
-    backgroundColor: '#EDF2F7',
+    backgroundColor: '#2A4365',
   },
   sidebarButtonText: {
     fontSize: 16,
     color: '#4A5568',
+    marginLeft: 10,
   },
   sidebarButtonTextActive: {
-    color: '#2D3748',
+    color: '#E2E8F0',
     fontWeight: 'bold',
   },
   mainContent: {

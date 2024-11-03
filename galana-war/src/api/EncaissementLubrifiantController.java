@@ -98,6 +98,7 @@ public class EncaissementLubrifiantController extends HttpServlet {
             Prelevement prelevement = new Prelevement().getById(prelevementId, Prelevement.class,null);
 
             Encaissement encaissement = new Encaissement();
+            
             encaissement.setDateEncaissement(dateEncaissement);
             encaissement.setMontantEncaisse(montantEncaisser);
             encaissement.setPrelevement(prelevement);

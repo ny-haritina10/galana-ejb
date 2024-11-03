@@ -89,6 +89,7 @@ public class CreanceDetailController extends HttpServlet {
             DetailCreance[] details = new DetailCreance().getAll(DetailCreance.class, null, "Creance");
             List<Client> clients = remote.getAllClients();
             List<DetailCreance> concernedCreances = new ArrayList<>();
+            
             for (DetailCreance detail : details) {
                 if (detail.getPrelevement().getId() == encaissement.getPrelevement().getId())
                 { concernedCreances.add(detail); }

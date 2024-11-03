@@ -2,6 +2,8 @@ package anomalie;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+
+import anomalie.Anomalie;
 import base.BaseModel;
 import pompe.Pompe;
 

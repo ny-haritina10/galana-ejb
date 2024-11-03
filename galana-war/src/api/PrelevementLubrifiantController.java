@@ -50,6 +50,12 @@ public class PrelevementLubrifiantController extends HttpServlet {
 
             List<Product> filteredProduct = new ArrayList<Product>();
 
+            /*
+                - filter products to send to the mobile app
+                - send only Essence, and lubrifiants
+                - product with sous type is Lubrifiant => sous type lubrifiant: { gasoil, essence }
+                - type product is related to boutique or mixte (sold in both store and pump) 
+            */
             for (Product product : products) {
                 if (!product.getSousType().equals("UNDEFINED") || product.getTypeProduct().equals("UNDEFINED") || product.getTypeProduct().equals("MIXTE"))
                 { filteredProduct.add(product); }
@@ -83,14 +89,13 @@ public class PrelevementLubrifiantController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         
         try {
-            // Read the request body
+            // read the JSON from the front end
             BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
             StringBuilder jsonBuilder = new StringBuilder();
             String line;
 
-            while ((line = reader.readLine()) != null) {
-                jsonBuilder.append(line);
-            }
+            while ((line = reader.readLine()) != null) 
+            { jsonBuilder.append(line); }
 
             String jsonString = jsonBuilder.toString();
             System.out.println("Received JSON Data: " + jsonString);
@@ -113,6 +118,11 @@ public class PrelevementLubrifiantController extends HttpServlet {
 
             JsonObject responseJson = new JsonObject();            
             
+            /*
+                - check if there is stock exchange
+                - don't verify stock for the profuct from pump
+                - resend an error response to the front end if so
+            */ 
             if (result.excessQuantity > 0 && !product.getTypeProduct().equals("UNDEFINED")) {
 
                 System.out.println(product.getName() + " " + doubleQte + " " + result.adjustedQuantity);
@@ -130,19 +140,20 @@ public class PrelevementLubrifiantController extends HttpServlet {
                 Integer idMaxPrelevement = Prelevement.getMaxId();
                 Prelevement lastPrelev = new Prelevement().getById(idMaxPrelevement, Prelevement.class, null);
 
+                /*
+                    - if the id prelevement is not even (pair), it's a closing prelevement
+                    - then, save the stock mouvement 
+                */
                 if (idMaxPrelevement % 2 != 0) {     
-                    System.out.println("#====================================#");
-                    System.out.println(product.getName() + " PU.V: " + product.getPuVente() + " DIFF QTE: " + lastPrelev.getPrelevementDifferenceQte() + " DIFF AMOUNT" + lastPrelev.getPrelevementDifference());
-                    System.out.println("#====================================#");
-
                     Stock stock = new Stock(1, product, lastPrelev.getDatePrelevement(), 0, (int) lastPrelev.getPrelevementDifferenceQte());
                     stock.insert(null);
                 }
+
                 responseJson.addProperty("status", "success");
                 responseJson.addProperty("message", "Prelevement success");
             }
             
-            // Use Gson to properly format the JSON response
+            // use Gson to properly format the JSON response
             response.getWriter().write(gson.toJson(responseJson));
         } 
 

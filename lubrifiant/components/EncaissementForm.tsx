@@ -13,6 +13,7 @@ interface Prelevement {
 }
 
 const EncaissementForm = () => {
+
   const [prelevements, setPrelevements] = useState<Prelevement[]>([]);
   const [selectedPrelevementId, setSelectedPrelevementId] = useState<number | undefined>(undefined);
   const [montantEncaisser, setMontantEncaisser] = useState<string>('');
@@ -22,18 +23,25 @@ const EncaissementForm = () => {
     const fetchData = async () => {
       const response = await fetch(API_ENDPOINTS.encaissement_lubrifiants);
       const data = await response.json();
+      
       setPrelevements(data.prelevements);
     };
     fetchData();
   }, []);
 
   const handleSubmit = async () => {
+    // check if any required fields are empty
+    if (!selectedPrelevementId || !montantEncaisser || !dateEncaissement) {
+      Alert.alert('Error', 'Please fill in all fields before submitting.');
+      return;
+    }
+  
     const data = {
       prelevementId: selectedPrelevementId,
       montantEncaisser: montantEncaisser,
       dateEncaissement: dateEncaissement,
     };
-
+  
     try {
       const response = await fetch(API_ENDPOINTS.encaissement_lubrifiants, {
         method: 'POST',
@@ -42,7 +50,7 @@ const EncaissementForm = () => {
         },
         body: JSON.stringify(data),
       });
-
+  
       if (response.ok) {
         Alert.alert('Success', 'Data sent successfully!');
       } else {
@@ -52,7 +60,7 @@ const EncaissementForm = () => {
       console.error('Error:', error);
       Alert.alert('Error', 'An error occurred while sending data.');
     }
-  };
+  };  
 
   return (
     <View style={styles.container}>
@@ -62,12 +70,13 @@ const EncaissementForm = () => {
         selectedValue={selectedPrelevementId}
         onValueChange={(itemValue) => setSelectedPrelevementId(itemValue)}
       >
+        {/* sort the prelevements by id in ascending order */}
         {prelevements
           .sort((a, b) => a.id - b.id)
           .map((prelevement) => (
             <Picker.Item
               key={prelevement.id}
-              label={`ID: ${prelevement.id} - ${prelevement.product.name} - Amount: ${prelevement.amount}`}
+              label={`ID: ${prelevement.id} - ${prelevement.product.name} - Amount: $${prelevement.amount}`}
               value={prelevement.id}
             />
           ))}

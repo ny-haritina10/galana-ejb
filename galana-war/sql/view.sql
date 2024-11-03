@@ -232,7 +232,6 @@ JOIN
 --
 -- RESTE STOCK
 --
-
 CREATE OR REPLACE VIEW v_stock_remaining AS
 SELECT 
     p.id AS product_id,
@@ -247,6 +246,5 @@ LEFT JOIN
     Stock s ON p.id = s.id_product
 WHERE 
     p.type_product = 'BOUTIQUE' OR p.type_product = 'MIXTE' 
-
 GROUP BY 
     p.id, p.name, p.qte_initial;
